@@ -1,6 +1,18 @@
-import { Link } from 'react-router-dom'
-import productsData from '../data/products.json'
+import { Link, useState, useEffect } from 'react-router-dom'
+import type { Product } from '../types/product'
 import './Home.css'
+
+const [productsData, setProductsData] = useState<Product[]>([])
+const [loading, setLoading] = useState(true)
+
+useEffect(() => {
+  fetch('/coquchemas/data/products.json')
+    .then(res => res.json())
+    .then((data: Product[]) => {
+      setProductsData(data)
+      setLoading(false)
+    })
+}, [])
 
 const trendingProducts = productsData.slice(0, 4)
 

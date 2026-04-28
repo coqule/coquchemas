@@ -5,6 +5,7 @@
   "installCommand": "cd web && npm ci",
   "framework": "vite",
   "rewrites": [
+    { "source": "/coquchemas/data/products.json", "destination": "/web/src/data/products.json" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
 }

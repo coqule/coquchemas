@@ -1,8 +1,19 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
-import productsData from '../data/products.json'
 import './Catalog.css'
+
+const [productsData, setProductsData] = useState<Product[]>([])
+const [loading, setLoading] = useState(true)
+
+useEffect(() => {
+  fetch('/coquchemas/data/products.json')
+    .then(res => res.json())
+    .then((data: Product[]) => {
+      setProductsData(data)
+      setLoading(false)
+    })
+}, [])
 
 const products: Product[] = productsData
 const ITEMS_PER_PAGE = 20
