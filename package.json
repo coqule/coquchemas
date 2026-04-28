@@ -13,6 +13,7 @@
     "categories": "node scraper/category-structure.js",
     "count": "node scraper/products-by-category.js",
     "pre-scrape": "node scraper/pre-scraper.js",
+    "sync": "node scripts/sync-products.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
