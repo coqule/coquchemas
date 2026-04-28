@@ -40,12 +40,11 @@ jobs:
       - name: Sync products.json to web
         run: cp scraper/products.json web/src/data/products.json
 
-      - name: Commit products.json
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: |
-            scraper/products.json
-            web/src/data/products.json
-          commit_message: "Update products.json - scraped from gakits.com"
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scraper/products.json web/src/data/products.json
+          git diff --staged --quiet || (git commit -m "Update products.json - scraped from gakits.com" && git push)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
