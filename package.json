@@ -1,0 +1,38 @@
+{
+  "name": "coquchemas",
+  "version": "1.0.0",
+  "description": "Catálogo de camisetas de fútbol - Scraper + React",
+  "type": "module",
+  "scripts": {
+    "scrape": "node scraper/scrape.js",
+    "scrape:preview": "node scraper/scrape.js --preview",
+    "scrape:new": "node scraper/scrape.js --new",
+    "scrape:full": "node scraper/scrape.js --full",
+    "scrape:all": "node scraper/scrape-all.js --full",
+    "scrape:all:new": "node scraper/scrape-all.js --new",
+    "categories": "node scraper/category-structure.js",
+    "count": "node scraper/products-by-category.js",
+    "pre-scrape": "node scraper/pre-scraper.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "football",
+    "jersey",
+    "scraper",
+    "catalog"
+  ],
+  "author": "CoquChemas",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "playwright": "^1.59.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}

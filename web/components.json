@@ -1,0 +1,19 @@
+{
+  "aliases": {
+    "utils": "@/lib/utils",
+    "components": "@/components",
+    "ui": "@/components/ui"
+  },
+  "tailwind": {
+    "css": "src/index.css",
+    "config": "tailwind.config.js",
+    "prefix": ""
+  },
+  "typescript": {
+    "enabled": true
+  },
+  "框架": "vite",
+  "style": "nova",
+  "base": "base",
+  "iconLibrary": "lucide"
+}

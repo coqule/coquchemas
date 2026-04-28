@@ -1,0 +1,40 @@
+# Daily scraper for CoquChemas
+# - scrape.js: Runs daily (New Arrivals by date)
+# - scrape-all.js: NOT scheduled (manual only, use: npm run scrape:all)
+name: Scrape Products
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at 00:00 UTC
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Playwright
+        run: npm ci && npx playwright install chromium
+      
+      - name: Run scraper
+        run: npm run scrape
+      
+      - name: Commit products.json
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: scraper/products.json
+          commit_message: "Update products.json - scraped from gakits.com"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

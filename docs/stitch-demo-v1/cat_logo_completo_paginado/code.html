@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catálogo - CoquChemas</title>
+<!-- Google Fonts: Lexend -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#5f4100",
+                        "secondary-fixed-dim": "#f6be1d",
+                        "surface-container-highest": "#193658",
+                        "surface-container-high": "#0b2b4d",
+                        "surface-bright": "#1e3a5d",
+                        "tertiary-container": "#976c14",
+                        "surface-container-low": "#001c3a",
+                        "outline-variant": "#42474f",
+                        "inverse-primary": "#2a6195",
+                        "on-background": "#d4e3ff",
+                        "surface-dim": "#00142b",
+                        "surface": "#00142b",
+                        "on-secondary-fixed-variant": "#5a4300",
+                        "on-primary-fixed-variant": "#01497c",
+                        "tertiary": "#f3be61",
+                        "surface-container-lowest": "#000e22",
+                        "surface-tint": "#9dcaff",
+                        "secondary": "#ffce56",
+                        "surface-variant": "#193658",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#f3be61",
+                        "inverse-on-surface": "#143154",
+                        "on-primary-container": "#fbfbff",
+                        "primary-fixed": "#d1e4ff",
+                        "on-tertiary-container": "#fffaf9",
+                        "on-primary-fixed": "#001d35",
+                        "on-primary": "#003257",
+                        "background": "#00142b",
+                        "on-secondary-container": "#5d4600",
+                        "outline": "#8c919a",
+                        "on-secondary-fixed": "#251a00",
+                        "on-surface": "#d4e3ff",
+                        "on-surface-variant": "#c2c7d0",
+                        "surface-container": "#002040",
+                        "error-container": "#93000a",
+                        "secondary-container": "#e7b101",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdeab",
+                        "primary-container": "#4377ac",
+                        "inverse-surface": "#d4e3ff",
+                        "primary-fixed-dim": "#9dcaff",
+                        "on-tertiary-fixed": "#271900",
+                        "primary": "#9dcaff",
+                        "on-secondary": "#3f2e00",
+                        "on-tertiary": "#422c00",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffdf9a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "container-margin": "20px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "gutter": "16px",
+                        "xl": "80px",
+                        "md": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Lexend"],
+                        "body-md": ["Lexend"],
+                        "label-sm": ["Lexend"],
+                        "headline-lg": ["Lexend"],
+                        "title-lg": ["Lexend"],
+                        "label-lg": ["Lexend"],
+                        "display-lg": ["Lexend"],
+                        "body-lg": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 z-50 border-b border-blue-900/30 shadow-2xl bg-slate-950/80 backdrop-blur-lg">
+<!-- Logo -->
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black text-blue-500 dark:text-blue-400 tracking-tighter">CoquChemas</span>
+</div>
+<!-- Desktop Navigation -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-lexend text-sm tracking-tight text-yellow-500 dark:text-yellow-400 font-bold border-b-2 border-yellow-500 pb-1" href="#">Catálogo</a>
+<a class="font-lexend text-sm tracking-tight text-slate-300 dark:text-slate-400 hover:text-white hover:text-yellow-400 transition-colors duration-200" href="#">Categorías</a>
+<a class="font-lexend text-sm tracking-tight text-slate-300 dark:text-slate-400 hover:text-white hover:text-yellow-400 transition-colors duration-200" href="#">Cómo Comprar</a>
+</nav>
+<!-- Search & Actions -->
+<div class="flex items-center gap-4">
+<!-- Search Bar (on_right) -->
+<div class="hidden md:flex relative items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400" style="font-size: 20px;">search</span>
+<input class="bg-slate-900 border border-slate-700 text-white text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all w-48 lg:w-64" placeholder="Buscar camiseta..." type="text"/>
+</div>
+<button aria-label="shopping_cart" class="text-slate-300 hover:text-yellow-400 transition-colors duration-200">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button aria-label="person" class="text-slate-300 hover:text-yellow-400 transition-colors duration-200">
+<span class="material-symbols-outlined">person</span>
+</button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-slate-300 hover:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 pt-20"> <!-- pt-20 offsets fixed top nav -->
+<!-- SideNavBar (Filters) -->
+<aside class="hidden lg:block fixed left-0 top-0 h-full w-64 pt-20 z-40 bg-slate-900 dark:bg-slate-950 rounded-r-2xl border-r border-blue-900/20 shadow-xl overflow-y-auto">
+<div class="p-6 border-b border-white/10">
+<h2 class="font-headline-md text-headline-md text-blue-500 dark:text-blue-400">Filtros de Búsqueda</h2>
+<p class="font-body-md text-body-md text-slate-500 mt-1">Personaliza tu selección</p>
+</div>
+<nav class="flex flex-col py-4 font-lexend text-base font-medium">
+<!-- Tab: Ligas (Active state for demonstration) -->
+<button class="flex items-center justify-between w-full bg-blue-600/20 text-blue-400 border-r-4 border-yellow-500 px-4 py-3 hover:bg-slate-800 transition-all text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span>Ligas</span>
+</div>
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+<!-- Expanded content placeholder for Ligas -->
+<div class="pl-12 pr-4 py-2 flex flex-col gap-2">
+<label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+<input class="rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500/50" type="checkbox"/>
+<span class="text-sm">Premier League</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+<input class="rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500/50" type="checkbox"/>
+<span class="text-sm">La Liga</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+<input class="rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500/50" type="checkbox"/>
+<span class="text-sm">Serie A</span>
+</label>
+</div>
+<!-- Tab: Equipos -->
+<button class="flex items-center justify-between w-full text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-slate-800 transition-all text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">groups</span>
+<span>Equipos</span>
+</div>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<!-- Tab: Tipo de Versión -->
+<button class="flex items-center justify-between w-full text-slate-500 dark:text-slate-400 px-4 py-3 hover:bg-slate-800 transition-all text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">military_tech</span>
+<span>Tipo de Versión</span>
+</div>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+<div class="p-6 mt-auto border-t border-white/10">
+<button class="w-full bg-[#FDC425] text-black font-label-lg text-label-lg py-3 rounded hover:bg-yellow-400 transition-colors shadow-md">
+                    Aplicar Filtros
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-container-margin md:p-lg w-full">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-md gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-background">Catálogo Completo</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Mostrando 124 productos</p>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<button class="lg:hidden flex items-center gap-2 bg-surface-container-high px-4 py-2 rounded border border-outline-variant text-on-surface font-label-lg text-label-lg">
+<span class="material-symbols-outlined">filter_list</span> Filtros
+                    </button>
+<div class="relative w-full md:w-48">
+<select class="w-full appearance-none bg-surface-container-high border border-outline-variant text-on-surface font-label-lg text-label-lg rounded px-4 py-2 pr-8 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Recomendados</option>
+<option>Precio: Menor a Mayor</option>
+<option>Precio: Mayor a Menor</option>
+<option>Novedades</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-gutter md:gap-md">
+<!-- Product Card 1 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="front view of a bright yellow football jersey with dark blue sponsor logo and subtle geometric patterns floating against a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2_EYyaCq3px7OrXs2-QKuLY1kYFG3L1oJEAKrsziICugCwBKUMnbo-IYX4gAbCSeY7eosuL5K9DnB9tV1a2sFCa-iyF2RcgKX7I4I0UGowe-jQ27cDuBVFute_52yJeaawQl5j2FithId4Ta4FSlpKW79wb7y90N3bSGJ4P238VFDCllz6g0_iQU-Oa_W5mXFlMH66fQaUYkGHqczsOiYuzVmgjT6b7fyfPtBLo_9MiaxSbgDxrRgsf228yWmNGT6yiMCzsfwGPr5"/>
+<div class="absolute top-2 left-2 bg-secondary text-on-secondary px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider">Nuevo</div>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur-sm p-1.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-on-surface block" style="font-size: 18px;">sports_soccer</span>
+</div>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Arsenal Local 23/24</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Jugador</p>
+</div>
+<div class="font-headline-md text-headline-md text-secondary mt-sm">$2,299.00</div>
+</div>
+</article>
+<!-- Product Card 2 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="classic white football jersey with black stripes on sleeves and vintage crest, cleanly lit on a dark slate background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4QzonA2vU4E_IJQr55jVBuFqkn7CRFkRZdKc3n-K2Vb3STTnx9zRUj8d2kmO-XZ3XhM9YEeqlFVM8wR8Oj6LvCGg-jmEwYIM6aOnWOMgD6xfioauzEItLsnjaPZpmesHiEhlrDlm2JovBfYk6rRkBjpobzdiMjY93BdZJlHAMi8WCBT8kR1h256GipoyyZ7KFuVdtnBR49qEdnHCglrS7FnQXakjZOFAKqbNKEBKuJsELXh9Y_6lmC9SuCF3r-BomieaeEK2uHiLO"/>
+<div class="absolute top-2 left-2 bg-[#5335E6] text-white px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider">Retro</div>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Juventus 97/98</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Clásica Fan</p>
+</div>
+<div class="font-headline-md text-headline-md text-secondary mt-sm">$1,699.00</div>
+</div>
+</article>
+<!-- Product Card 3 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="vibrant sky blue football kit with white accents and silver sponsor text, dramatic rim lighting on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUosXITvQE64MSsd2CXeRahvozdpeIBbJewjAWkjTCJ4gB1szTVnWClAVGr0w80SEKgCVcnpGg3v8qSkdphXdVxtyWCJHW6OCbLy69MZkjYtaohWcrr3rNppHFpOEEana28Dv-bbnN1_wtUZBPpFkJEiHxl5rcp4JbNwf4kc2hcdmHO22nK8Wl3CZwxP1XWjMhqY8RES2AMEURH3LQQay334VnEttvjcghPh8B9gPD2nBvZgGBcsnBrFXSX35Nz8tuuSKpP6w4jP-s"/>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Man City Visita 23/24</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Fan</p>
+</div>
+<div class="font-headline-md text-headline-md text-secondary mt-sm">$1,899.00</div>
+</div>
+</article>
+<!-- Product Card 4 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="deep crimson red football jersey with gold trim details, elegant lighting showcasing fabric texture on dark navy background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOwmlC19M38JVwN_eHPcLbpupr1WPZNoNfGfq53NDN8_lNnhuYuleRDGeZPo46NTDLMGRdXYVo5eRN9lJ9KE6aQdHavEkz3m51Ej-K4SJ6klAi_wrEyVcmsp0qU_FU3xvHG9FuABzqbWZEoRQ6mDbuvk1Ln-GPwwetAvjdHNmb5-cc1yPHq7jsCfwq1bHvBQEykdq5A5ZY5OWv3eDnvghuuBwTSRlprUJD84sFjmVnO8ArMG2h9ITzJyXs6IwagmXbclkhryL7IZvB"/>
+<div class="absolute top-2 left-2 bg-secondary text-on-secondary px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider">Oferta</div>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Bayern Munich Local</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Jugador</p>
+</div>
+<div class="flex items-center gap-2 mt-sm">
+<span class="font-headline-md text-headline-md text-secondary">$2,099.00</span>
+<span class="text-on-surface-variant line-through text-sm">$2,599.00</span>
+</div>
+</div>
+</article>
+<!-- Product Card 5 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="light blue and white striped football jersey representing Argentina, clean studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1BvzoSI0PJMUAE-pNC0VHvnQvtOgO2gHr85TikSdURoT6rC3jiHlnGU97n_BtiBvGJLRt8porKg0CpCS1ZePvDbZFpyN0C5O9S3DgX2OQ9J10v2Z2j8kA_GBQZ0I3NtM9tEgLb4Yjy_CwhCJ0n8aylmC06vYQVLh2jjTxLgc8PpWIB3BZr0CTwEsMQefAwKshOyT67qo97XsWRYO4XF-0Y_Jo3rcpkHmKuXYrlUsEx_xwhfBIQT0a6hPOIQTkbnxR7E5kR0qxh4kE"/>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Argentina Local 2024</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Fan</p>
+</div>
+<div class="font-headline-md text-headline-md text-secondary mt-sm">$1,999.00</div>
+</div>
+</article>
+<!-- Product Card 6 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="yellow football jersey with green trim representing Brazil, clean studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1eVDCQcvKgYNozcnmQjLrWS1fkMRdHhBjprKVAX98WZqrFQmbJIMuZUStP8kUrK-iPDXOguF8wT_umMl3qo1YNGUBltp9FnJMe8IAw3XC-NNzz1nyERsV_-qW-DsxUoqE-Q6hG86sTHvoPbBdqY-GUfJiSJVdIfzjuUZkM6_gmwQIgAuF7LYsSwnQOfWBYI7Ss-N6TQmHCjEzPFgCaz-wghKESsLUSP_hsPjrEpFH0BeedwgMLuRVr4DA--GXk6EQxfAVvgT4LZ8q"/>
+<div class="absolute top-2 left-2 bg-secondary text-on-secondary px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider">Nuevo</div>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Brasil Local 2024</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Jugador</p>
+</div>
+<div class="font-headline-md text-headline-md text-secondary mt-sm">$2,399.00</div>
+</div>
+</article>
+<!-- Product Card 7 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="clean white football jersey representing Real Madrid, elegant studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzwseUX4N7e7skOFsYbPxLkSlQ7flwsp6-OJGoRvd5qYNFJ92XbbU8F53rBLgl8StNtvhPgb9TUPccf9_g5BwmxSpCrjG8Vp92S6ayiMh26A0gqUis0eQ83BEDGluIB-BAckUIfRcmEkn-vauBOPDq4h4GKPnsCXX-sZpxhXC6IW2hHObr7y_fZ-N-ELDvNaY_e046WevlyA_HQuX-sBEkXCpBwj3zZ_K9Tju0QTa7S8Kqe-5mBVqm-5I_LacZmM1hEhQoINmAFTMP"/>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Real Madrid Local 23/24</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Fan</p>
+</div>
+<div class="font-headline-md text-headline-md text-secondary mt-sm">$1,899.00</div>
+</div>
+</article>
+<!-- Product Card 8 -->
+<article class="bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/30 flex flex-col group cursor-pointer hover:bg-surface-container-high transition-colors shadow-sm hover:shadow-lg">
+<div class="relative aspect-[3/4] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="red and blue striped football jersey representing Barcelona, clean studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Z-oS8CeVzU1GOQvKGGYMJ8J-ZLId2tJ_FHSmroshn0ppnYlFEvotZWSPUoAGOVh-rR8bOFjJ42UYcIH8yIJIvnpU4Ib28dRpvju0pSxjaosaRe5oiR-OcVn9h3D7K3BWiZdO-yi3OyshZiUEAMTOxhYy5bW_hpWXd5UAu9fUhqp74sKtu6QnqqbMmowKgoBcdz6HBP7TSBIqgVnrEjnlLwdhzjA01B_c-Y-RJX3PivtX-MzAm81qEsnHU4OMuWy2xrNs8lH4CaZe"/>
+<div class="absolute top-2 left-2 bg-secondary text-on-secondary px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider">Oferta</div>
+</div>
+<div class="p-sm flex flex-col gap-xs flex-1 justify-between">
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-2 leading-tight">Barcelona Local 23/24</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Versión Jugador</p>
+</div>
+<div class="flex items-center gap-2 mt-sm">
+<span class="font-headline-md text-headline-md text-secondary">$1,999.00</span>
+<span class="text-on-surface-variant line-through text-sm">$2,499.00</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-xl flex justify-center items-center gap-2">
+<button class="bg-surface-container-high border border-outline-variant text-on-surface hover:bg-surface-container-highest font-label-lg px-4 py-2 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Anterior
+                </button>
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-label-lg rounded font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container-high text-on-surface hover:bg-surface-container-highest font-label-lg rounded transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container-high text-on-surface hover:bg-surface-container-highest font-label-lg rounded transition-colors">3</button>
+<span class="text-on-surface-variant px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container-high text-on-surface hover:bg-surface-container-highest font-label-lg rounded transition-colors">12</button>
+<button class="bg-surface-container-high border border-outline-variant text-on-surface hover:bg-surface-container-highest font-label-lg px-4 py-2 rounded transition-colors">
+                    Siguiente
+                </button>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6 flat full-width border-t border-slate-800 bg-slate-950 z-10 relative">
+<div class="text-lg font-bold text-blue-500">CoquChemas</div>
+<nav class="flex flex-wrap justify-center gap-6">
+<a class="font-lexend text-xs uppercase tracking-widest text-slate-500 hover:text-green-400 transition-colors" href="#">Privacidad</a>
+<a class="font-lexend text-xs uppercase tracking-widest text-slate-500 hover:text-green-400 transition-colors" href="#">Términos</a>
+<a class="font-lexend text-xs uppercase tracking-widest text-slate-500 hover:text-green-400 transition-colors" href="#">Contacto WhatsApp</a>
+</nav>
+<p class="font-lexend text-xs uppercase tracking-widest text-slate-500 text-center md:text-right">
+            © 2024 CoquChemas. La pasión por el fútbol.
+        </p>
+</footer>
+</body></html>

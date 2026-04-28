@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CoquChemas - Inicio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#5f4100",
+                        "secondary-fixed-dim": "#f6be1d",
+                        "surface-container-highest": "#193658",
+                        "surface-container-high": "#0b2b4d",
+                        "surface-bright": "#1e3a5d",
+                        "tertiary-container": "#976c14",
+                        "surface-container-low": "#001c3a",
+                        "outline-variant": "#42474f",
+                        "inverse-primary": "#2a6195",
+                        "on-background": "#d4e3ff",
+                        "surface-dim": "#00142b",
+                        "surface": "#00142b",
+                        "on-secondary-fixed-variant": "#5a4300",
+                        "on-primary-fixed-variant": "#01497c",
+                        "tertiary": "#f3be61",
+                        "surface-container-lowest": "#000e22",
+                        "surface-tint": "#9dcaff",
+                        "secondary": "#ffce56",
+                        "surface-variant": "#193658",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#f3be61",
+                        "inverse-on-surface": "#143154",
+                        "on-primary-container": "#fbfbff",
+                        "primary-fixed": "#d1e4ff",
+                        "on-tertiary-container": "#fffaf9",
+                        "on-primary-fixed": "#001d35",
+                        "on-primary": "#003257",
+                        "background": "#00142b",
+                        "on-secondary-container": "#5d4600",
+                        "outline": "#8c919a",
+                        "on-secondary-fixed": "#251a00",
+                        "on-surface": "#d4e3ff",
+                        "on-surface-variant": "#c2c7d0",
+                        "surface-container": "#002040",
+                        "error-container": "#93000a",
+                        "secondary-container": "#e7b101",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdeab",
+                        "primary-container": "#4377ac",
+                        "inverse-surface": "#d4e3ff",
+                        "primary-fixed-dim": "#9dcaff",
+                        "on-tertiary-fixed": "#271900",
+                        "primary": "#9dcaff",
+                        "on-secondary": "#3f2e00",
+                        "on-tertiary": "#422c00",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffdf9a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "container-margin": "20px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "gutter": "16px",
+                        "xl": "80px",
+                        "md": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Lexend"],
+                        "body-md": ["Lexend"],
+                        "label-sm": ["Lexend"],
+                        "headline-lg": ["Lexend"],
+                        "title-lg": ["Lexend"],
+                        "label-lg": ["Lexend"],
+                        "display-lg": ["Lexend"],
+                        "body-lg": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-slate-950/80 backdrop-blur-lg docked full-width top-0 z-50 border-b border-blue-900/30 fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 border-b border-white/10 shadow-2xl hidden md:flex">
+<div class="text-2xl font-black text-blue-500 dark:text-blue-400 tracking-tighter">CoquChemas</div>
+<div class="flex gap-gutter">
+<a class="font-lexend text-sm tracking-tight text-yellow-500 dark:text-yellow-400 font-bold border-b-2 border-yellow-500 pb-1 hover:text-yellow-400 transition-colors duration-200" href="#">Catálogo</a>
+<a class="font-lexend text-sm tracking-tight text-slate-300 dark:text-slate-400 hover:text-white hover:text-yellow-400 transition-colors duration-200" href="#">Categorías</a>
+<a class="font-lexend text-sm tracking-tight text-slate-300 dark:text-slate-400 hover:text-white hover:text-yellow-400 transition-colors duration-200" href="#">Cómo Comprar</a>
+</div>
+<div class="flex gap-gutter text-blue-500 dark:text-blue-400">
+<button class="hover:text-yellow-400 transition-colors duration-200 Active: scale-95 transition-transform"><span class="material-symbols-outlined">shopping_cart</span></button>
+<button class="hover:text-yellow-400 transition-colors duration-200 Active: scale-95 transition-transform"><span class="material-symbols-outlined">person</span></button>
+</div>
+</nav>
+<!-- Mobile Top Header -->
+<header class="md:hidden bg-background px-container-margin py-md flex justify-between items-center sticky top-0 z-40">
+<div class="font-display-lg text-display-lg text-primary tracking-tighter">CoquChemas</div>
+<div class="flex gap-sm text-primary">
+<button><span class="material-symbols-outlined">shopping_cart</span></button>
+</div>
+</header>
+<main class="flex-1 md:pt-24">
+<!-- SideNavBar (Desktop) -->
+<!-- Hero Section -->
+<section class="relative h-[614px] md:h-[716px] flex items-center justify-center overflow-hidden mb-lg">
+<div class="absolute inset-0 bg-surface-container-low z-0">
+<img alt="Hero Image" class="w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="dramatic lighting on a premium football jersey texture in deep navy and gold colors close up macro shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYWV6fpbLOce_ZEZm_AV5mT-fT2gq3IKHl0uYwF7cTPsASonNpGYzWOoY0aKRzduvt9TBJ2laN0zZ1ym-L-me3nekVcdmcfHGjP3BKDgEtgJ02GfrAlaCx4bgy0_8K9BS7o_QQsApSmxEUqWk_qTAk2Rq9I3TbqbQOGiVnEYlyA4uXFT2DbrRr6enrKPSyKvqd7qw8Y8bBCW83SebwRI423t3onB2glPCnIds4HKdVqglamb6oZi1yvt8czJ8ArgPiHy4s6osGtJZj"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+</div>
+<div class="relative z-10 text-center px-container-margin max-w-3xl mx-auto">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-md">La pasión del fútbol en tu piel</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg">Descubre la colección más exclusiva de jerseys de fútbol. Calidad premium para verdaderos aficionados.</p>
+<div class="flex flex-col sm:flex-row gap-gutter justify-center">
+<button class="bg-secondary text-on-secondary px-xl py-sm rounded-lg font-label-lg text-label-lg hover:bg-secondary-container transition-colors">Comprar Ahora</button>
+<button class="border border-primary-container text-on-surface px-xl py-sm rounded-lg font-label-lg text-label-lg hover:bg-surface-container-high transition-colors">Ver Novedades</button>
+</div>
+</div>
+</section>
+<!-- Novedades Section -->
+<section class="px-container-margin md:px-lg mb-xl">
+<div class="flex justify-between items-end mb-md border-b border-surface-container-highest pb-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Novedades</h2>
+<a class="font-label-lg text-label-lg text-primary hover:text-primary-container transition-colors" href="#">Ver todo <span class="material-symbols-outlined align-middle text-sm">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<article class="bg-surface-container rounded-xl overflow-hidden border border-surface-container-highest hover:border-primary-container transition-colors group">
+<div class="relative aspect-[3/4] bg-surface-container-low overflow-hidden">
+<div class="absolute top-sm left-sm z-10 bg-secondary text-on-secondary px-2 py-1 rounded-full font-label-sm text-label-sm">Nuevo</div>
+<img alt="Jersey 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="professional photo of a modern red and white football jersey front view on a dark slate background studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz7FxM4d7sPPr7h4cGMclQuIuvpID6-pKICjJHxbQsqDmD8wYmtS_Z7BPgWWYjqkDytuvqgefAQB0hEMnqZE5psUcRo8wQFqbMPHC9mZHQyThRgqbo22uA5v4y-MGAs6zNMPMPXrRrhKcRwzFGdBs2FzSBl2v6K7bWq1-F4jfb8k6g1J2JJIBuW0CCvaIeBiJfOmFs43gCWikDfEp-fcu77IID0GV5b-MWg-3P9n9xAQ0Inu-aiw6JVOY0cqlgYqO_qfZbwhAPSS-s"/>
+</div>
+<div class="p-sm">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-1">Arsenal Local 23/24</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm line-clamp-1">Versión Jugador</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-headline-md text-headline-md text-secondary">$1,299</span>
+<button class="text-primary hover:text-primary-container transition-colors p-xs"><span class="material-symbols-outlined">add_shopping_cart</span></button>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container rounded-xl overflow-hidden border border-surface-container-highest hover:border-primary-container transition-colors group">
+<div class="relative aspect-[3/4] bg-surface-container-low overflow-hidden">
+<img alt="Jersey 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="professional photo of a modern black and gold football jersey front view on a dark slate background studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtzybpbZbaqxgmtzeq5xCnq-FPWCI8-ytRs1l7pLgHlt7LEJQNm7ZouTXtnN-_uaQfGMpepRNGp949sdlT39ZDAgClTjKpdfIJW-eRMFAi8y070PvqVdASXv6iRFhO1zfnUeHt98yyNR6MUNn5kpAG6vSZB8Qd23AA2hGdMEMSNu_VLJp8EN6TdIsGaWDLBSYo4W_lLlhi1R_0iz0Y-xeXLCUp50mJ_Whs5Ox9EiBrDw_tm_74w1Ran105DroaoVTQIHCmA_WM-mnl"/>
+</div>
+<div class="p-sm">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-1">Real Madrid Visita 23/24</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm line-clamp-1">Versión Aficionado</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-headline-md text-headline-md text-secondary">$1,099</span>
+<button class="text-primary hover:text-primary-container transition-colors p-xs"><span class="material-symbols-outlined">add_shopping_cart</span></button>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface-container rounded-xl overflow-hidden border border-surface-container-highest hover:border-primary-container transition-colors group">
+<div class="relative aspect-[3/4] bg-surface-container-low overflow-hidden">
+<div class="absolute top-sm left-sm z-10 bg-tertiary text-on-tertiary px-2 py-1 rounded-full font-label-sm text-label-sm">Retro</div>
+<img alt="Jersey 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="professional photo of a vintage blue and yellow football jersey front view on a dark slate background studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPms7owV7S_73gYvDnEpciuvtvhm8EqsaHyhvnVp-CUheC2oLQCp4WtBoP0O3cZKnWVHBh_5s8M_OpGTaQ8w12YlruokAcZj3rUTLPF_sV3cZTN3jb2qJwhs7J8G0XrxWjeIVgvvAvNN9tWl5t58flWFY_CTNHAR0lXly7Akhs-dAu_uSdWMxEq74yo2p64oJosdv9CMFlBjDsi2rxiV-r9DxV7Au2KSJYIVbJmx5Qv7PEoPwV1y__6YWOM03cZRBjwdF99YhstkiY"/>
+</div>
+<div class="p-sm">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-1">Boca Juniors 2000</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm line-clamp-1">Edición Especial</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-headline-md text-headline-md text-secondary">$1,499</span>
+<button class="text-primary hover:text-primary-container transition-colors p-xs"><span class="material-symbols-outlined">add_shopping_cart</span></button>
+</div>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="bg-surface-container rounded-xl overflow-hidden border border-surface-container-highest hover:border-primary-container transition-colors group">
+<div class="relative aspect-[3/4] bg-surface-container-low overflow-hidden">
+<div class="absolute top-sm left-sm z-10 bg-secondary text-on-secondary px-2 py-1 rounded-full font-label-sm text-label-sm">Oferta</div>
+<img alt="Jersey 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="professional photo of a modern green and white football jersey front view on a dark slate background studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPi03kPwNme0vzEqKH_R3__zMii7iljzCewdleragxFCwNNz2pNCRQN6qP3V0yhp2bNUWnsjINwY5f4HFbDOgJ9ZQa9QkouQlhsotAC47SjSvw_LVxlsPvfRWB1WWbVKmLy5jwN1kb3FD463oO7F_ZsIlDiAoZ3SSPmP4Qdza4cY1Qmkg_QTGD1UIeb61jLGmtqLM5e1uqf3OnNsFNuHlWv0R9tG5OsYZLv5PoaU1Kvg-01UtWlP3EHU__PKV_V6XEk5zG6-M-sQ6T"/>
+</div>
+<div class="p-sm">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface line-clamp-1">Selección México Local 22</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm line-clamp-1">Versión Jugador</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-headline-md text-headline-md text-secondary">$899</span>
+<button class="text-primary hover:text-primary-container transition-colors p-xs"><span class="material-symbols-outlined">add_shopping_cart</span></button>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Categorías Section (Bento Grid Style) -->
+<section class="px-container-margin md:px-lg mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Categorías</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter h-[600px] md:h-[400px]">
+<!-- Ligas (Large Card) -->
+<div class="md:col-span-2 relative rounded-2xl overflow-hidden group cursor-pointer bg-surface-container-low border border-surface-container-highest">
+<img alt="Ligas" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="vibrant view of a massive football stadium lit up at night from the stands cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXxKtu1LSLvEON1y71bDi9sf5vJpklzeto-EnmvRH4wjd1-qKjq8aeBw2Q_RRkSFhqZv7tzzZs0g1kOobSVwL6Bmo4moU6Fm1awpQeIIBOCKOQXgcHQovAH0cWcsHJtRke8ehCz-MJZyEW0qQLZtonGuB0NbMgfMyDWdlbN3FlK3viaFaV4lm4JNDdb5nigvW_Q_meXAdpqiooAkP8zVlzHUWzyeJPkeyU1UQAkKpPX81X7kqZ6p1803BZS6Pgr7dcWaHDRltktzHy"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-surface-dim/40 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-lg w-full">
+<h3 class="font-display-lg text-display-lg text-on-surface mb-xs">Ligas Europeas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-sm">Premier League, La Liga, Serie A y más.</p>
+<span class="inline-flex items-center gap-xs font-label-lg text-label-lg text-secondary group-hover:translate-x-2 transition-transform">Explorar <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+</div>
+</div>
+<div class="flex flex-col gap-gutter h-full">
+<!-- Retro -->
+<div class="flex-1 relative rounded-2xl overflow-hidden group cursor-pointer bg-surface-container-low border border-surface-container-highest">
+<img alt="Retro" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="close up of a vintage classic football ball resting on grass soft warm sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkPYt4nRrAgk_qTcmf3EEs_0Z5NPuhxvQaPdKeqphJDFUADwQfJoXObQ6cwnKmfLUk4hbXb6LoAzqiTUiCysQsMZ9LhLKUEopE67ubbHL5p107gJoODc0FOwyjsv5aaEf0BqVWC7Bt5r7B1d5Inu0U4AhX2w72kOsZSTdQre9ol7aoXWCOsvvIWBEvlVhnJAYZNTx8QrnscfmIcNA6_bIZWPiOda3wlYd-5R0LvLld-MOIYaRR__q8z_vy_JKm-3INgxB8avNQzJhQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-md w-full">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-xs">Colección Retro</h3>
+<span class="inline-flex items-center gap-xs font-label-sm text-label-sm text-tertiary">Joyas clásicas <span class="material-symbols-outlined text-xs">arrow_forward</span></span>
+</div>
+</div>
+<!-- Selecciones -->
+<div class="flex-1 relative rounded-2xl overflow-hidden group cursor-pointer bg-surface-container-low border border-surface-container-highest">
+<img alt="Selecciones" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="fans holding up flags in a stadium crowd passionate atmosphere dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7n5OA4ODwU4YgeVtYW6rBopwzT3eVis3ff_PtCFrARAl6zCpIyr7cuDQKNsI1tBfnPqjR2JSG8966uEuQlUkEo3cBc8cmEaR_dLJHGu9RadmPOebo8BmX7uDhRGdrm6RtCNkSwF2bkxlxPnzFfjJix2Au8rW_CHeT8VDLaJXOB-F6iOIdHsMOgCUD0eQdhux63wS8zxIg3WPULcjxC7R_IYI4AI2pxkH51hZAkl-6Dn6TR4PmAY_HHMv_EksLTWcJJlNQDSBcY2TU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-md w-full">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-xs">Selecciones</h3>
+<span class="inline-flex items-center gap-xs font-label-sm text-label-sm text-primary">Rumbo a la copa <span class="material-symbols-outlined text-xs">arrow_forward</span></span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Load More Spinner (Infinite Scroll Illusion) -->
+<div class="flex justify-center items-center py-lg mb-xl">
+<span class="material-symbols-outlined animate-spin text-primary-container text-display-lg">autorenew</span>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-950 flat full-width border-t border-blue-900/40 border-t border-slate-800 w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6 mt-auto">
+<div class="text-lg font-bold text-blue-500">CoquChemas</div>
+<div class="flex flex-wrap justify-center gap-md font-lexend text-xs uppercase tracking-widest text-slate-500">
+<a class="hover:text-green-400 transition-colors" href="#">Privacidad</a>
+<a class="hover:text-green-400 transition-colors" href="#">Términos</a>
+<a class="hover:text-green-400 transition-colors flex items-center gap-xs" href="#"><span class="material-symbols-outlined text-sm">chat</span> Contacto WhatsApp</a>
+</div>
+<div class="font-lexend text-xs uppercase tracking-widest text-slate-500">
+            © 2024 CoquChemas. La pasión por el fútbol.
+        </div>
+</footer>
+<!-- WhatsApp Floating Action Button -->
+<a class="fixed bottom-container-margin right-container-margin z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform md:bottom-lg md:right-lg flex items-center justify-center" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+</a>
+<!-- Mobile Bottom Navigation (Visible only on md hidden) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container border-t border-surface-container-highest flex justify-around items-center py-2 px-4 z-40 pb-safe">
+<a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-[10px]">Inicio</span>
+<div class="w-1 h-1 bg-primary rounded-full mt-0.5"></div>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label-sm text-[10px]">Catálogo</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-sm text-[10px]">Ligas</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px]">Perfil</span>
+</a>
+</nav>
+</body></html>
