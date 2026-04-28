@@ -1,5 +1,5 @@
 # Daily scraper for CoquChemas
-# - scrape.js: Runs daily (New Arrivals by date)
+# - scrape.js: Runs daily (New Arrivals by date, incremental mode)
 # - scrape-all.js: NOT scheduled (manual only, use: npm run scrape:all)
 name: Scrape Products
 
@@ -11,6 +11,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
@@ -18,19 +21,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+       
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
-      - name: Install Playwright
-        run: npm ci && npx playwright install chromium
-      
-      - name: Run scraper
-        run: npm run scrape
-      
+       
+      - name: Install dependencies
+        run: npm ci
+       
+      - name: Install Playwright and system dependencies
+        run: npx playwright install --with-deps chromium
+       
+      - name: Run scraper (incremental)
+        run: npm run scrape:new
+       
       - name: Commit products.json
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
