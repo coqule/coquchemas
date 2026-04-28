@@ -12,6 +12,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    target: 'esnext',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge']
+        }
+      }
+    }
+  },
   server: {
     host: '0.0.0.0',
     port: 5173
