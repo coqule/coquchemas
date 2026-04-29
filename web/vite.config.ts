@@ -5,7 +5,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/coquchemas/', // Required for GitHub Pages
+  base: process.env.VERCEL ? '/' : '/coquchemas/', // Vercel: '/', GitHub Pages: '/coquchemas/'
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
