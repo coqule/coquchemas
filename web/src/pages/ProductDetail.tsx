@@ -9,7 +9,8 @@ export default function ProductDetail() {
   const productId = id ? parseInt(id) : null
 
   useEffect(() => {
-    fetch('/coquchemas/data/products.json')
+    const base = window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
+    fetch(`${base}/data/products.json`)
       .then(res => res.json())
       .then((data: Product[]) => {
         setProductsData(data)

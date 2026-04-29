@@ -17,7 +17,8 @@ export default function Home() {
   const [productsData, setProductsData] = useState<Product[]>([])
 
   useEffect(() => {
-    fetch('/coquchemas/data/products.json')
+    const base = window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
+    fetch(`${base}/data/products.json`)
       .then(res => res.json())
       .then((data: Product[]) => {
         setProductsData(data)
