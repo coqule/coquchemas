@@ -4,14 +4,12 @@ import type { Product } from '../types/product'
 import './Catalog.css'
 
 const [productsData, setProductsData] = useState<Product[]>([])
-const [loading, setLoading] = useState(true)
 
 useEffect(() => {
   fetch('/coquchemas/data/products.json')
     .then(res => res.json())
     .then((data: Product[]) => {
       setProductsData(data)
-      setLoading(false)
     })
 }, [])
 
@@ -30,17 +28,17 @@ export default function Catalog() {
   const [selectedTeam, setSelectedTeam] = useState(initialTeam)
 
   const categories = useMemo(() => {
-    const cats = new Set(products.map(p => p.category).filter(Boolean))
+    const cats = new Set(products.map((p: Product) => p.category).filter((cat): cat is string => Boolean(cat)))
     return ['all', ...Array.from(cats)]
   }, [])
 
   const teams = useMemo(() => {
-    const t = new Set(products.map(p => p.team).filter(Boolean))
+    const t = new Set(products.map((p: Product) => p.team).filter((team): team is string => Boolean(team)))
     return [...Array.from(t)].slice(0, 30)
   }, [])
 
   const filtered = useMemo(() => {
-    return products.filter(p => {
+    return products.filter((p: Product) => {
       const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
@@ -124,12 +122,12 @@ export default function Catalog() {
       </div>
 
       <div className="products-grid">
-        {paginatedProducts.map(product => (
-          <Link
-            key={product.id}
-            to={`/product/${product.id}`}
-            className="product-card"
-          >
+          {paginatedProducts.map((product: Product) => (
+            <Link
+              key={product.id}
+              to={`/product/${product.id}`}
+              className="product-card"
+            >
             <div className="product-image">
               <img
                 src={product.image}

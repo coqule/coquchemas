@@ -1,27 +1,26 @@
-import { Link, useState, useEffect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import type { Product } from '../types/product'
 import './Home.css'
 
 const [productsData, setProductsData] = useState<Product[]>([])
-const [loading, setLoading] = useState(true)
 
 useEffect(() => {
   fetch('/coquchemas/data/products.json')
     .then(res => res.json())
     .then((data: Product[]) => {
       setProductsData(data)
-      setLoading(false)
     })
 }, [])
 
 const trendingProducts = productsData.slice(0, 4)
 
-const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
+const categories = [...new Set(productsData.map((p: Product) => p.category))].filter((cat): cat is string => Boolean(cat)).map(cat => ({
   name: cat,
   slug: cat.toLowerCase().replace(' ', '-')
 }))
 
-const teams = [...new Set(productsData.map(p => p.team))].filter(Boolean).slice(0, 12)
+const teams = [...new Set(productsData.map((p: Product) => p.team))].filter((team): team is string => Boolean(team)).slice(0, 12)
 
 const categoryIcons: Record<string, string> = {
   'Jersey': '⚽',
@@ -72,7 +71,7 @@ export default function Home() {
       <section className="categories-section">
         <h2>Categorías</h2>
         <div className="categories-grid">
-          {categories.map(cat => (
+          {categories.map((cat: { name: string; slug: string }) => (
             <Link key={cat.slug} to={`/catalog?category=${cat.slug}`} className="category-card">
               <span className="category-icon">{categoryIcons[cat.name] || '👕'}</span>
               <span>{cat.name}</span>
@@ -84,7 +83,7 @@ export default function Home() {
       <section className="featured-section">
         <h2>Equipos</h2>
         <div className="featured-grid">
-          {teams.map(team => (
+          {teams.map((team: string) => (
             <Link key={team} to={`/catalog?team=${team}`} className="featured-card">
               <span className="team-badge">{team.substring(0, 3).toUpperCase()}</span>
               <span>{team}</span>
@@ -97,7 +96,7 @@ export default function Home() {
         <h2>Lo más nuevo</h2>
         <p className="trending-subtitle">Recién llegados a nuestro catálogo</p>
         <div className="trending-grid">
-          {trendingProducts.map(product => (
+          {trendingProducts.map((product: Product) => (
             <Link key={product.id} to={`/product/${product.id}`} className="trending-card">
               <div className="trending-image">
                 <img src={product.image} alt={product.name} loading="lazy" />

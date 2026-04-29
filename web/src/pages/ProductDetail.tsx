@@ -4,14 +4,12 @@ import type { Product } from '../types/product'
 import './ProductDetail.css'
 
 const [productsData, setProductsData] = useState<Product[]>([])
-const [loading, setLoading] = useState(true)
 
 useEffect(() => {
   fetch('/coquchemas/data/products.json')
     .then(res => res.json())
     .then((data: Product[]) => {
       setProductsData(data)
-      setLoading(false)
     })
 }, [])
 
@@ -28,7 +26,7 @@ export default function ProductDetail() {
   const relatedProducts = useMemo(() => {
     if (!product) return []
     return products
-      .filter(p => p.team === product.team && p.id !== product.id)
+      .filter((p: Product) => p.team === product.team && p.id !== product.id)
       .slice(0, 4)
   }, [product])
   
