@@ -81,10 +81,10 @@ export default function ProductDetail() {
           </div>
           
           <div className="product-price">
-            <span className="price-currency">$</span>
-            <span className="price-amount">{product.price}</span>
-            <span className="price-decimal">.00</span>
-          </div>
+              <span className="price-currency">₡</span>
+              <span className="price-amount">20,000</span>
+              <span className="price-decimal"></span>
+            </div>
           
           <div className="product-description">
             <h3>Descripción</h3>
@@ -104,7 +104,7 @@ export default function ProductDetail() {
                 </div>
                 <div className="related-info">
                   <span className="related-name">{p.name}</span>
-                  <span className="related-price">${p.price}</span>
+                  <span className="related-price">₡20,000</span>
                 </div>
               </Link>
             ))}

@@ -134,10 +134,10 @@ export default function Catalog() {
                 loading="lazy"
               />
             </div>
-            <div className="product-info">
-              <h3>{product.name}</h3>
-              <p className="product-price">${product.price}</p>
-            </div>
+              <div className="product-info">
+                <h3>{product.name}</h3>
+                <p className="product-price">₡20,000</p>
+              </div>
           </Link>
         ))}
       </div>

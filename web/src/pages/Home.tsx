@@ -100,10 +100,10 @@ export default function Home() {
                 <img src={product.image} alt={product.name} loading="lazy" />
                 <span className="trending-tag">Nuevo</span>
               </div>
-              <div className="trending-info">
-                <span className="trending-name">{product.name}</span>
-                <span className="trending-price">${product.price}</span>
-              </div>
+                <div className="trending-info">
+                  <span className="trending-name">{product.name}</span>
+                  <span className="trending-price">₡20,000</span>
+                </div>
             </Link>
           ))}
         </div>
