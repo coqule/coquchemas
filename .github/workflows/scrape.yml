@@ -34,7 +34,7 @@ jobs:
       - name: Commit products.json
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          file_pattern: scraper/products.json
+          file_pattern: 'scraper/products.json web/public/data/products.json'
           commit_message: "Update products.json - scraped from gakits.com"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
