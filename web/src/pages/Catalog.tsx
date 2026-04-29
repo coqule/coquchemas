@@ -1,41 +1,48 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
-import productsData from '../data/products.json'
 import './Catalog.css'
 
-const products: Product[] = productsData
 const ITEMS_PER_PAGE = 20
 
 export default function Catalog() {
+  const [productsData, setProductsData] = useState<Product[]>([])
   const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
-  
+
+  useEffect(() => {
+    fetch('/coquchemas/data/products.json')
+      .then(res => res.json())
+      .then((data: Product[]) => {
+        setProductsData(data)
+      })
+  }, [])
+
   const initialCategory = searchParams.get('category') || 'all'
   const initialTeam = searchParams.get('team') || ''
-  
+
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [selectedTeam, setSelectedTeam] = useState(initialTeam)
 
   const categories = useMemo(() => {
-    const cats = new Set(products.map(p => p.category).filter(Boolean))
+    const cats = new Set(productsData.map((p: Product) => p.category).filter(Boolean))
     return ['all', ...Array.from(cats)]
-  }, [])
+  }, [productsData])
 
   const teams = useMemo(() => {
-    const t = new Set(products.map(p => p.team).filter(Boolean))
+    const t = new Set(productsData.map((p: Product) => p.team).filter(Boolean))
     return [...Array.from(t)].slice(0, 30)
-  }, [])
+  }, [productsData])
 
   const filtered = useMemo(() => {
-    return products.filter(p => {
+    return productsData.filter((p: Product) => {
       const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
       return matchesSearch && matchesCategory && matchesTeam
     })
-  }, [search, selectedCategory, selectedTeam])
+  }, [productsData, search, selectedCategory, selectedTeam])
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)

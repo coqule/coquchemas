@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom'
-import productsData from '../data/products.json'
+import { useState, useEffect } from 'react'
+import type { Product } from '../types/product'
 import './Home.css'
-
-const trendingProducts = productsData.slice(0, 4)
-
-const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
-  name: cat,
-  slug: cat.toLowerCase().replace(' ', '-')
-}))
-
-const teams = [...new Set(productsData.map(p => p.team))].filter(Boolean).slice(0, 12)
 
 const categoryIcons: Record<string, string> = {
   'Jersey': '⚽',
@@ -22,6 +14,22 @@ const categoryIcons: Record<string, string> = {
 }
 
 export default function Home() {
+  const [productsData, setProductsData] = useState<Product[]>([])
+
+  useEffect(() => {
+    fetch('/coquchemas/data/products.json')
+      .then(res => res.json())
+      .then((data: Product[]) => {
+        setProductsData(data)
+      })
+  }, [])
+
+  const trendingProducts = productsData.slice(0, 4)
+  const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
+    name: cat,
+    slug: cat.toLowerCase().replace(' ', '-')
+  }))
+  const teams = [...new Set(productsData.map(p => p.team))].filter(Boolean).slice(0, 12)
 
   return (
     <div className="landing">

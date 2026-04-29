@@ -1,25 +1,31 @@
 import { useParams, Link } from 'react-router-dom'
-import { useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
-import productsData from '../data/products.json'
 import './ProductDetail.css'
 
-const products: Product[] = productsData
-
 export default function ProductDetail() {
+  const [productsData, setProductsData] = useState<Product[]>([])
   const { id } = useParams()
   const productId = id ? parseInt(id) : null
-  
+
+  useEffect(() => {
+    fetch('/coquchemas/data/products.json')
+      .then(res => res.json())
+      .then((data: Product[]) => {
+        setProductsData(data)
+      })
+  }, [])
+
   const product = useMemo(() => {
-    return products.find(p => p.id === productId) || products[0]
-  }, [productId])
-  
+    return productsData.find(p => p.id === productId) || productsData[0]
+  }, [productsData, productId])
+
   const relatedProducts = useMemo(() => {
     if (!product) return []
-    return products
+    return productsData
       .filter(p => p.team === product.team && p.id !== product.id)
       .slice(0, 4)
-  }, [product])
+  }, [product, productsData])
   
   if (!product) {
     return (
