@@ -5,8 +5,11 @@ import ProductDetail from './pages/ProductDetail'
 import './App.css'
 
 export default function App() {
+  const basename = window.location.hostname === 'localhost' ? '/coquchemas' : 
+                  window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
+  
   return (
-    <BrowserRouter basename="/coquchemas">
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
