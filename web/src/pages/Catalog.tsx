@@ -1,62 +1,52 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
 import './Catalog.css'
 
-const [productsData, setProductsData] = useState<Product[]>([])
-const [error, setError] = useState<string | null>(null)
-
-useEffect(() => {
-  fetch('/coquchemas/data/products.json')
-    .then(res => {
-      if (!res.ok) throw new Error('Network response was not ok')
-      return res.json()
-    })
-    .then((data: Product[]) => {
-      setProductsData(data)
-    })
-    .catch((err: Error) => {
-      setError(err.message)
-    })
-}, [])
-
-const products: Product[] = productsData
-
 const ITEMS_PER_PAGE = 20
 
 export default function Catalog() {
+  const [productsData, setProductsData] = useState<Product[]>([])
   const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
-  
+
+  useEffect(() => {
+    fetch('/coquchemas/data/products.json')
+      .then(res => res.json())
+      .then((data: Product[]) => {
+        setProductsData(data)
+      })
+  }, [])
+
   const initialCategory = searchParams.get('category') || 'all'
   const initialTeam = searchParams.get('team') || ''
-  
+
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [selectedTeam, setSelectedTeam] = useState(initialTeam)
-  
+
   const categories = useMemo(() => {
-    const cats = new Set(products.map((p: Product) => p.category).filter((cat): cat is string => Boolean(cat)))
+    const cats = new Set(productsData.map((p: Product) => p.category).filter(Boolean))
     return ['all', ...Array.from(cats)]
-  }, [])
-  
+  }, [productsData])
+
   const teams = useMemo(() => {
-    const t = new Set(products.map((p: Product) => p.team).filter((team): team is string => Boolean(team)))
+    const t = new Set(productsData.map((p: Product) => p.team).filter(Boolean))
     return [...Array.from(t)].slice(0, 30)
-  }, [])
-  
+  }, [productsData])
+
   const filtered = useMemo(() => {
-    return products.filter((p: Product) => {
+    return productsData.filter((p: Product) => {
       const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
       return matchesSearch && matchesCategory && matchesTeam
     })
-  }, [search, selectedCategory, selectedTeam])
-  
+  }, [productsData, search, selectedCategory, selectedTeam])
+
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
-  
+
   const handleCategoryChange = (cat: string) => {
     setSelectedCategory(cat)
     setPage(1)
@@ -67,7 +57,7 @@ export default function Catalog() {
     }
     setSearchParams(searchParams)
   }
-  
+
   const handleTeamChange = (team: string) => {
     setSelectedTeam(team)
     setPage(1)
@@ -78,23 +68,7 @@ export default function Catalog() {
     }
     setSearchParams(searchParams)
   }
-  
-  if (error) {
-    return (
-      <div className="catalog">
-        <div className="error">{error}</div>
-      </div>
-    )
-  }
 
-  if (productsData.length === 0) {
-    return (
-      <div className="catalog">
-        <div className="loading">Cargando...</div>
-      </div>
-    )
-  }
-  
   return (
     <div className="catalog">
       <header className="catalog-header">
@@ -105,7 +79,7 @@ export default function Catalog() {
           </nav>
         </div>
       </header>
-      
+
       <div className="catalog-filters">
         <input
           type="text"
@@ -115,7 +89,7 @@ export default function Catalog() {
           className="search-input"
         />
       </div>
-      
+
       <div className="filter-row">
         <select 
           value={selectedCategory} 
@@ -128,7 +102,7 @@ export default function Catalog() {
             </option>
           ))}
         </select>
-        
+
         <select 
           value={selectedTeam} 
           onChange={(e) => handleTeamChange(e.target.value)}
@@ -140,13 +114,13 @@ export default function Catalog() {
           ))}
         </select>
       </div>
-      
+
       <div className="results-info">
         {filtered.length} productos - Página {page} de {totalPages}
       </div>
-      
+
       <div className="products-grid">
-        {paginatedProducts.map((product: Product) => (
+        {paginatedProducts.map(product => (
           <Link
             key={product.id}
             to={`/product/${product.id}`}
@@ -166,7 +140,7 @@ export default function Catalog() {
           </Link>
         ))}
       </div>
-      
+
       {totalPages > 1 && (
         <div className="pagination">
           <button 

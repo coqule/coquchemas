@@ -6,7 +6,7 @@ import './App.css'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/coquchemas">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
