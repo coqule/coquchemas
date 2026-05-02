@@ -22,8 +22,13 @@ function SPAFallbackHandler() {
 }
 
 export default function App() {
-  const basename = window.location.hostname === 'localhost' ? '/coquchemas' : 
-                window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
+  // Detect environment by hostname
+  // Vercel: hostname includes 'vercel.app', serves from root (/)
+  // GitHub Pages: hostname includes 'github.io', serves from /coquchemas/
+  // Localhost: serves from /coquchemas
+  const isVercel = window.location.hostname.includes('vercel.app')
+  const isGitHubPages = window.location.hostname.includes('github.io')
+  const basename = isVercel ? '/' : isGitHubPages ? '/coquchemas' : '/coquchemas'
   
   return (
     <BrowserRouter basename={basename}>
