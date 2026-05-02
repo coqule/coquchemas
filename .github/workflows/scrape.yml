@@ -7,9 +7,9 @@ on:
   schedule:
     - cron: '0 0 * * *'  # Daily at 00:00 UTC
   workflow_dispatch:
-  push:
-    branches:
-      - main
+
+permissions:
+  contents: read
 
 jobs:
   scrape:
@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,5 +38,6 @@ jobs:
         with:
           file_pattern: 'scraper/products.json web/public/data/products.json'
           commit_message: "Update products.json - scraped from gakits.com"
+          branch: main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
