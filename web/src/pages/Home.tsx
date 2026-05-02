@@ -95,7 +95,7 @@ export default function Home() {
         <p className="trending-subtitle">Recién llegados a nuestro catálogo</p>
         <div className="trending-grid">
           {trendingProducts.map(product => (
-            <Link key={product.id} to={`/product/${product.id}`} className="trending-card">
+                <Link key={product.sku} to={`/product/${product.sku}`} className="trending-card">
               <div className="trending-image">
                 <img src={product.image} alt={product.name} loading="lazy" />
                 <span className="trending-tag">Nuevo</span>

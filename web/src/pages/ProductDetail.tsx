@@ -6,8 +6,8 @@ import './ProductDetail.css'
 export default function ProductDetail() {
   const [productsData, setProductsData] = useState<Product[]>([])
   const { id } = useParams()
-  const productId = id ? parseInt(id) : null
-
+  const productSku = id || null
+  
   useEffect(() => {
     const base = window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
     fetch(`${base}/data/products.json`)
@@ -16,10 +16,10 @@ export default function ProductDetail() {
         setProductsData(data)
       })
   }, [])
-
+  
   const product = useMemo(() => {
-    return productsData.find(p => p.id === productId) || productsData[0]
-  }, [productsData, productId])
+    return productsData.find(p => p.sku === productSku) || productsData[0]
+  }, [productsData, productSku])
 
   const relatedProducts = useMemo(() => {
     if (!product) return []
@@ -98,7 +98,7 @@ export default function ProductDetail() {
           <h2>Más de {product.team}</h2>
           <div className="related-grid">
             {relatedProducts.map(p => (
-              <Link key={p.id} to={`/product/${p.id}`} className="related-card">
+              <Link key={p.sku} to={`/product/${p.sku}`} className="related-card">
                 <div className="related-image">
                   <img src={p.image} alt={p.name} />
                 </div>
