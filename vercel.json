@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd web && npm ci && npm run build",
-  "outputDirectory": "web/dist",
-  "devCommand": "cd web && npm run dev",
-  "installCommand": "cd web && npm ci",
+  "buildCommand": "npm ci && npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci",
   "framework": "vite",
   "rewrites": [
     {
