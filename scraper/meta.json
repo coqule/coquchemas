@@ -1,7 +1,7 @@
 {
-  "lastScrape": "2026-04-27T00:57:46.913Z",
-  "mode": "PREVIEW",
-  "totalProducts": 14584,
-  "newAdded": 84,
-  "pagesScraped": 5
+  "lastScrape": "2026-05-02T20:04:58.925Z",
+  "mode": "INCREMENTAL",
+  "totalProducts": 14790,
+  "newAdded": 150,
+  "pagesScraped": 3
 }
