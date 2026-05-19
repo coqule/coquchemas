@@ -49,21 +49,31 @@ export default function Home() {
       </header>
 
       <section className="hero">
+        <div className="hero-grid-bg"></div>
+        <div className="hero-decoration">
+          <div className="hero-line hero-line-1"></div>
+          <div className="hero-line hero-line-2"></div>
+          <div className="hero-line hero-line-3"></div>
+        </div>
         <div className="hero-content">
-          <div className="hero-badge">
+          <div className="hero-badge" style={{ animationDelay: '0ms' }}>
             <span className="badge-dot"></span>
             +14,000 productos disponibles
           </div>
-          <h1>Coqu<span className="highlight">Chemas</span></h1>
-          <p>Las mejores camisetas de fútbol y deportes. Envíos a todo Costa Rica.</p>
-          <Link to="/catalog" className="btn-primary">
+          <h1 className="hero-title" style={{ animationDelay: '150ms' }}>
+            Coqu<span className="highlight">Chemas</span>
+          </h1>
+          <p className="hero-subtitle" style={{ animationDelay: '300ms' }}>
+            Las mejores camisetas de fútbol y deportes. Envíos a todo Costa Rica.
+          </p>
+          <Link to="/catalog" className="btn-primary" style={{ animationDelay: '450ms' }}>
             Ver Catálogo
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </Link>
         </div>
-        <div className="hero-visual">
+        <div className="hero-visual" style={{ animationDelay: '200ms' }}>
           <div className="hero-image-container">
             <img src="/hero.png" alt="" className="hero-image" />
             <div className="hero-glow"></div>
