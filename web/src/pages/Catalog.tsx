@@ -10,10 +10,10 @@ import { fetchProducts } from '../utils/dataCache'
 const ITEMS_PER_PAGE = 20
 
 export default function Catalog() {
-  const [productsData, setProductsData] = useState<Product[]>([])
+  const [productsData, setProductsData] = useState<Product[]>(() => [])
   const [searchParams, setSearchParams] = useSearchParams()
-  const [search, setSearch] = useState('')
-  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState(() => '')
+  const [page, setPage] = useState(() => 1)
 
   useEffect(() => {
     fetchProducts().then((data: Product[]) => {

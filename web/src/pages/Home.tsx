@@ -18,7 +18,7 @@ const categoryIcons: Record<string, string> = {
 import { fetchProducts } from '../utils/dataCache'
 
 export default function Home() {
-  const [productsData, setProductsData] = useState<Product[]>([])
+  const [productsData, setProductsData] = useState<Product[]>(() => [])
 
   useEffect(() => {
     fetchProducts().then((data: Product[]) => {

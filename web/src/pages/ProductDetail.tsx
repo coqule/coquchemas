@@ -7,7 +7,7 @@ import './ProductDetail.css'
 import { fetchProducts } from '../utils/dataCache'
 
 export default function ProductDetail() {
-  const [productsData, setProductsData] = useState<Product[]>([])
+  const [productsData, setProductsData] = useState<Product[]>(() => [])
   const { id } = useParams()
   const productSku = id || null
   
