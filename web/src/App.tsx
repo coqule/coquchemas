@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import Home from './pages/Home'
-import Catalog from './pages/Catalog'
-import ProductDetail from './pages/ProductDetail'
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+import { useEffect, Suspense, lazy } from 'react'
 import './App.css'
+
+const Home = lazy(() => import('./pages/Home'))
+const Catalog = lazy(() => import('./pages/Catalog'))
+const ProductDetail = lazy(() => import('./pages/ProductDetail'))
 
 function SPAFallbackHandler() {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ function SPAFallbackHandler() {
     const savedPath = sessionStorage.getItem('spa_redirect');
     if (savedPath) {
       sessionStorage.removeItem('spa_redirect');
-      // Remove /coquchemas prefix if present
       const cleanPath = savedPath.replace(/^\/coquchemas/, '');
       navigate(cleanPath);
     }
@@ -21,11 +21,15 @@ function SPAFallbackHandler() {
   return null;
 }
 
+function LoadingFallback() {
+  return (
+    <div className="loading-fallback">
+      <div className="loading-spinner"></div>
+    </div>
+  );
+}
+
 export default function App() {
-  // Detect environment by hostname
-  // Vercel: hostname includes 'vercel.app', serves from root (/)
-  // GitHub Pages: hostname includes 'github.io', serves from /coquchemas/
-  // Localhost: serves from /coquchemas
   const isVercel = window.location.hostname.includes('vercel.app')
   const isGitHubPages = window.location.hostname.includes('github.io')
   const basename = isVercel ? '/' : isGitHubPages ? '/coquchemas' : '/coquchemas'
@@ -33,12 +37,15 @@ export default function App() {
   return (
     <BrowserRouter basename={basename}>
       <SPAFallbackHandler />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/catalog/:category" element={<Catalog />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-      </Routes>
+      <Suspense fallback={<LoadingFallback />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/:category" element={<Catalog />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }
