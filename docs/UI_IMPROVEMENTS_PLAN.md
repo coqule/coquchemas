@@ -30,15 +30,9 @@ Guía de mejoras visuales basada en principios de **frontend-design** para crear
 
 ## 3. Filtros y Ordenamiento (MEDIO IMPACTO)
 
-### ⬜ Dropdowns custom con estilo
-**Archivos:** `Catalog.tsx`, `Catalog.css`
-**Problema:** Selects nativos del browser sin estilo.
-**Mejora:**
-- Dropdowns custom con iconos por opción
-- Chips de filtro activo removibles
-- Animaciones de apertura/cierre
-- Indicador visual de filtro aplicado
-- Iconos de ordenamiento (↑↓)
+### ❌ Dropdowns custom con estilo (Descartado)
+**Fecha:** 19/05/2026
+**Motivo:** Los cambios no gustaron al probar en local. Se intentaron dropdowns custom, chips de filtro, search bar mejorada.
 
 ---
 
@@ -117,7 +111,7 @@ Guía de mejoras visuales basada en principios de **frontend-design** para crear
 |---|--------|--------|----------|----------------|
 | 1 | Product Cards redesign | ❌ Descartado | Medio | Muy Alto |
 | 2 | Hero Section | ⬜ Pendiente | Medio | Muy Alto |
-| 3 | Filtros custom | ⬜ Pendiente | Medio | Alto |
+| 3 | Filtros custom | ❌ Descartado | Medio | Alto |
 | 4 | Product Detail layout | ⬜ Pendiente | Medio | Alto |
 | 5 | Animaciones | ⬜ Pendiente | Alto | Alto |
 | 6 | Paleta de colores | ⬜ Pendiente | Bajo | Medio |
