@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
-import { sortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
+import { filterAndSortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
 import ProductCard from '../components/ProductCard'
 import './Catalog.css'
 
@@ -53,13 +53,13 @@ export default function Catalog() {
 
   const filtered = useMemo(() => {
     const actualCategory = slugToCategory.get(selectedCategory) || selectedCategory
-    const result = productsData.filter((p: Product) => {
-      const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
+    const searchLower = search.toLowerCase()
+    return filterAndSortProducts(productsData, (p: Product) => {
+      const matchesSearch = !search || p.name.toLowerCase().includes(searchLower)
       const matchesCategory = selectedCategory === 'all' || p.category === actualCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
       return matchesSearch && matchesCategory && matchesTeam
-    })
-    return sortProducts(result, sortBy)
+    }, sortBy)
   }, [productsData, search, selectedCategory, selectedTeam, sortBy, slugToCategory])
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)

@@ -39,3 +39,36 @@ export function sortProducts(products: Product[], sortBy: SortOption): Product[]
     }
   })
 }
+
+export function filterAndSortProducts(
+  products: Product[],
+  predicate: (p: Product) => boolean,
+  sortBy: SortOption
+): Product[] {
+  const filtered: Product[] = []
+  for (let i = 0; i < products.length; i++) {
+    if (predicate(products[i])) {
+      filtered.push(products[i])
+    }
+  }
+  return filtered.sort((a, b) => {
+    switch (sortBy) {
+      case 'newest':
+        return new Date(b.scrapedAt).getTime() - new Date(a.scrapedAt).getTime()
+      case 'price-asc':
+        return parsePrice(a.price) - parsePrice(b.price)
+      case 'price-desc':
+        return parsePrice(b.price) - parsePrice(a.price)
+      case 'name-asc':
+        return a.name.localeCompare(b.name)
+      case 'name-desc':
+        return b.name.localeCompare(a.name)
+      case 'season-desc':
+        return (b.season || '').localeCompare(a.season || '')
+      case 'team-asc':
+        return (a.team || '').localeCompare(b.team || '')
+      default:
+        return 0
+    }
+  })
+}
