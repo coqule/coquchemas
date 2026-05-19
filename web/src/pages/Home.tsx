@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
+import { sortProducts } from '../utils/sortProducts'
 import './Home.css'
 
 const categoryIcons: Record<string, string> = {
@@ -25,7 +26,11 @@ export default function Home() {
       })
   }, [])
 
-  const trendingProducts = productsData.slice(0, 4)
+  const newestProducts = useMemo(
+    () => sortProducts(productsData, 'newest').slice(0, 4),
+    [productsData]
+  )
+
   const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
     name: cat,
     slug: cat.toLowerCase().replace(' ', '-')
@@ -94,7 +99,7 @@ export default function Home() {
         <h2>Lo más nuevo</h2>
         <p className="trending-subtitle">Recién llegados a nuestro catálogo</p>
         <div className="trending-grid">
-          {trendingProducts.map(product => (
+          {newestProducts.map(product => (
                 <Link key={product.sku} to={`/product/${product.sku}`} className="trending-card">
               <div className="trending-image">
                 <img src={product.image} alt={product.name} loading="lazy" />

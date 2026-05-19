@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
+import { sortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
 import './Catalog.css'
 
 const ITEMS_PER_PAGE = 20
@@ -22,9 +23,12 @@ export default function Catalog() {
 
   const initialCategory = searchParams.get('category') || 'all'
   const initialTeam = searchParams.get('team') || ''
+  const urlSort = searchParams.get('sort') as SortOption | null
+  const savedSort = localStorage.getItem('catalog-sort') as SortOption | null
 
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [selectedTeam, setSelectedTeam] = useState(initialTeam)
+  const [sortBy, setSortBy] = useState<SortOption>(urlSort || savedSort || 'newest')
 
   const categories = useMemo(() => {
     const cats = new Set(productsData.map((p: Product) => p.category).filter(Boolean))
@@ -37,13 +41,14 @@ export default function Catalog() {
   }, [productsData])
 
   const filtered = useMemo(() => {
-    return productsData.filter((p: Product) => {
+    const result = productsData.filter((p: Product) => {
       const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
       return matchesSearch && matchesCategory && matchesTeam
     })
-  }, [productsData, search, selectedCategory, selectedTeam])
+    return sortProducts(result, sortBy)
+  }, [productsData, search, selectedCategory, selectedTeam, sortBy])
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
@@ -67,6 +72,14 @@ export default function Catalog() {
     } else {
       searchParams.set('team', team)
     }
+    setSearchParams(searchParams)
+  }
+
+  const handleSortChange = (sort: string) => {
+    setSortBy(sort as SortOption)
+    setPage(1)
+    localStorage.setItem('catalog-sort', sort)
+    searchParams.set('sort', sort)
     setSearchParams(searchParams)
   }
 
@@ -112,6 +125,17 @@ export default function Catalog() {
           <option value="">Todos los equipos</option>
           {teams.map(team => (
             <option key={team} value={team}>{team}</option>
+          ))}
+        </select>
+
+        <select 
+          value={sortBy} 
+          onChange={(e) => handleSortChange(e.target.value)}
+          className="filter-select"
+          aria-label="Ordenar por"
+        >
+          {SORT_OPTIONS.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
       </div>
