@@ -16,16 +16,32 @@ export default function ProductDetail() {
     })
   }, [])
   
-  const product = useMemo(() => {
-    return productsData.find(p => p.sku === productSku) || productsData[0]
-  }, [productsData, productSku])
+  const productMap = useMemo(() => {
+    const map = new Map<string, Product>()
+    productsData.forEach(p => map.set(p.sku, p))
+    return map
+  }, [productsData])
+  
+  const product = productMap.get(productSku || '') || productsData[0]
+
+  const productsByTeam = useMemo(() => {
+    const map = new Map<string, Product[]>()
+    productsData.forEach(p => {
+      if (p.team) {
+        const team = map.get(p.team) || []
+        team.push(p)
+        map.set(p.team, team)
+      }
+    })
+    return map
+  }, [productsData])
 
   const relatedProducts = useMemo(() => {
     if (!product) return []
-    return productsData
-      .filter(p => p.team === product.team && p.id !== product.id)
+    return (productsByTeam.get(product.team) || [])
+      .filter(p => p.id !== product.id)
       .slice(0, 4)
-  }, [product, productsData])
+  }, [product, productsByTeam])
   
   if (!product) {
     return (
