@@ -31,7 +31,10 @@ export default function Home() {
     [productsData]
   )
 
-  const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean)
+  const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
+    name: cat,
+    slug: cat.toLowerCase().replace(/ /g, '-')
+  }))
   const teams = [...new Set(productsData.map(p => p.team))].filter(Boolean).slice(0, 12)
 
   return (
@@ -72,9 +75,9 @@ export default function Home() {
         <h2>Categorías</h2>
         <div className="categories-grid">
           {categories.map(cat => (
-            <Link key={cat} to={`/catalog?category=${encodeURIComponent(cat)}`} className="category-card">
-              <span className="category-icon">{categoryIcons[cat] || '👕'}</span>
-              <span>{cat}</span>
+            <Link key={cat.slug} to={`/catalog?category=${cat.slug}`} className="category-card">
+              <span className="category-icon">{categoryIcons[cat.name] || '👕'}</span>
+              <span>{cat.name}</span>
             </Link>
           ))}
         </div>
