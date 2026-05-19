@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
 import { sortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
+import ProductCard from '../components/ProductCard'
 import './Catalog.css'
 
 import { fetchProducts } from '../utils/dataCache'
@@ -174,23 +175,7 @@ export default function Catalog() {
 
       <div className="products-grid">
         {paginatedProducts.map(product => (
-          <Link
-            key={product.sku}
-            to={`/product/${product.sku}`}
-            className="product-card"
-          >
-            <div className="product-image">
-              <img
-                src={product.image}
-                alt={product.name}
-                loading="lazy"
-              />
-            </div>
-              <div className="product-info">
-                <h3>{product.name}</h3>
-                <p className="product-price">₡20,000</p>
-              </div>
-          </Link>
+          <ProductCard key={product.sku} product={product} />
         ))}
       </div>
 

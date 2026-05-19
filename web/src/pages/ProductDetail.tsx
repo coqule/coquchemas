@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
+import ProductCard from '../components/ProductCard'
 import './ProductDetail.css'
 
 import { fetchProducts } from '../utils/dataCache'
@@ -113,15 +114,7 @@ export default function ProductDetail() {
           <h2>Más de {product.team}</h2>
           <div className="related-grid">
             {relatedProducts.map(p => (
-              <Link key={p.sku} to={`/product/${p.sku}`} className="related-card">
-                <div className="related-image">
-                  <img src={p.image} alt={p.name} />
-                </div>
-                <div className="related-info">
-                  <span className="related-name">{p.name}</span>
-                  <span className="related-price">₡20,000</span>
-                </div>
-              </Link>
+              <ProductCard key={p.sku} product={p} />
             ))}
           </div>
         </section>

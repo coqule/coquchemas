@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
 import { sortProducts } from '../utils/sortProducts'
+import ProductCard from '../components/ProductCard'
 import './Home.css'
 
 const categoryIcons: Record<string, string> = {
@@ -99,16 +100,7 @@ export default function Home() {
         <p className="trending-subtitle">Recién llegados a nuestro catálogo</p>
         <div className="trending-grid">
           {newestProducts.map(product => (
-                <Link key={product.sku} to={`/product/${product.sku}`} className="trending-card">
-              <div className="trending-image">
-                <img src={product.image} alt={product.name} loading="lazy" />
-                <span className="trending-tag">Nuevo</span>
-              </div>
-                <div className="trending-info">
-                  <span className="trending-name">{product.name}</span>
-                  <span className="trending-price">₡20,000</span>
-                </div>
-            </Link>
+            <ProductCard key={product.sku} product={product} />
           ))}
         </div>
         <Link to="/catalog" className="view-all-btn">
