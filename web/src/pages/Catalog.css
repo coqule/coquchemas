@@ -71,10 +71,39 @@
   color: var(--text-muted);
 }
 
+.filter-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 16px;
+}
+
+.filter-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .filter-row {
   display: flex;
-  gap: 10px;
+  gap: 16px;
   margin: 14px 0;
+}
+
+.filter-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
 .filter-select {
@@ -217,6 +246,11 @@
   
   .filter-row {
     flex-direction: column;
+    gap: 12px;
+  }
+  
+  .filter-group {
+    width: 100%;
   }
   
   .filter-select {
