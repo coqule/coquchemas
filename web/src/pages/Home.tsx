@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
-import { sortProducts } from '../utils/sortProducts'
 import ProductCard from '../components/ProductCard'
 import './Home.css'
+
+import { fetchProducts } from '../utils/dataCache'
 
 const categoryIcons: Record<string, string> = {
   'Jersey': '⚽',
@@ -15,8 +16,6 @@ const categoryIcons: Record<string, string> = {
   'Outerwear': '🧥'
 }
 
-import { fetchProducts } from '../utils/dataCache'
-
 export default function Home() {
   const [productsData, setProductsData] = useState<Product[]>(() => [])
 
@@ -26,10 +25,11 @@ export default function Home() {
     })
   }, [])
 
-  const newestProducts = useMemo(
-    () => sortProducts(productsData, 'newest').slice(0, 4),
-    [productsData]
-  )
+  const newestProducts = useMemo(() => {
+    return [...productsData]
+      .sort((a, b) => new Date(b.scrapedAt).getTime() - new Date(a.scrapedAt).getTime())
+      .slice(0, 4)
+  }, [productsData])
 
   const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
     name: cat,
