@@ -23,15 +23,8 @@ Guía de mejoras visuales basada en principios de **frontend-design** para crear
 
 ## 2. Hero Section Landing (ALTO IMPACTO)
 
-### ⬜ Composición más impactante
-**Archivos:** `Home.tsx`, `Home.css`
-**Problema:** Hero básico con texto + botón + imagen.
-**Mejora:**
-- Tipografía display con escala dramática
-- Efectos de gradiente atmosféricos
-- Animaciones staggered en page load
-- Elementos decorativos (líneas diagonales, formas)
-- Badge animado de "+14,000 productos"
+### ✅ Composición más impactante
+**Implementado:** Staggered animations (0ms/150ms/300ms/450ms), grid background, líneas flotantes animadas, botón con glow effect, título más grande (80px) con letter-spacing -2px.
 
 ---
 
