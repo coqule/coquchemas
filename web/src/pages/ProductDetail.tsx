@@ -3,18 +3,17 @@ import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
 import './ProductDetail.css'
 
+import { fetchProducts } from '../utils/dataCache'
+
 export default function ProductDetail() {
   const [productsData, setProductsData] = useState<Product[]>([])
   const { id } = useParams()
   const productSku = id || null
   
   useEffect(() => {
-    const base = window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
-    fetch(`${base}/data/products.json`)
-      .then(res => res.json())
-      .then((data: Product[]) => {
-        setProductsData(data)
-      })
+    fetchProducts().then((data: Product[]) => {
+      setProductsData(data)
+    })
   }, [])
   
   const product = useMemo(() => {

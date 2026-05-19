@@ -14,16 +14,15 @@ const categoryIcons: Record<string, string> = {
   'Outerwear': '🧥'
 }
 
+import { fetchProducts } from '../utils/dataCache'
+
 export default function Home() {
   const [productsData, setProductsData] = useState<Product[]>([])
 
   useEffect(() => {
-    const base = window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
-    fetch(`${base}/data/products.json`)
-      .then(res => res.json())
-      .then((data: Product[]) => {
-        setProductsData(data)
-      })
+    fetchProducts().then((data: Product[]) => {
+      setProductsData(data)
+    })
   }, [])
 
   const newestProducts = useMemo(
