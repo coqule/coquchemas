@@ -98,7 +98,7 @@ export default function Catalog() {
     <div className="catalog">
       <header className="catalog-header">
         <div className="header-content">
-          <Link to="/" className="logo">CoquChemas</Link>
+          <Link to="/" className="logo">Coqu<span className="logo-accent">Chemas</span></Link>
           <nav className="nav">
             <Link to="/catalog" className="nav-link">Catálogo</Link>
           </nav>

@@ -27,6 +27,11 @@
   font-size: 26px;
   font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.logo-accent {
+  color: var(--secondary);
 }
 
 .nav {
