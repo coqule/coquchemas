@@ -4,6 +4,8 @@ import type { Product } from '../types/product'
 import { sortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
 import './Catalog.css'
 
+import { fetchProducts } from '../utils/dataCache'
+
 const ITEMS_PER_PAGE = 20
 
 export default function Catalog() {
@@ -13,12 +15,9 @@ export default function Catalog() {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    const base = window.location.pathname.startsWith('/coquchemas') ? '/coquchemas' : ''
-    fetch(`${base}/data/products.json`)
-      .then(res => res.json())
-      .then((data: Product[]) => {
-        setProductsData(data)
-      })
+    fetchProducts().then((data: Product[]) => {
+      setProductsData(data)
+    })
   }, [])
 
   const initialCategorySlug = searchParams.get('category') || 'all'
