@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
+import { sortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
 import './Catalog.css'
 
 const ITEMS_PER_PAGE = 20
@@ -22,9 +23,12 @@ export default function Catalog() {
 
   const initialCategory = searchParams.get('category') || 'all'
   const initialTeam = searchParams.get('team') || ''
+  const urlSort = searchParams.get('sort') as SortOption | null
+  const savedSort = localStorage.getItem('catalog-sort') as SortOption | null
 
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [selectedTeam, setSelectedTeam] = useState(initialTeam)
+  const [sortBy, setSortBy] = useState<SortOption>(urlSort || savedSort || 'newest')
 
   const categories = useMemo(() => {
     const cats = new Set(productsData.map((p: Product) => p.category).filter(Boolean))
@@ -37,13 +41,14 @@ export default function Catalog() {
   }, [productsData])
 
   const filtered = useMemo(() => {
-    return productsData.filter((p: Product) => {
+    const result = productsData.filter((p: Product) => {
       const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
       return matchesSearch && matchesCategory && matchesTeam
     })
-  }, [productsData, search, selectedCategory, selectedTeam])
+    return sortProducts(result, sortBy)
+  }, [productsData, search, selectedCategory, selectedTeam, sortBy])
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
@@ -70,6 +75,14 @@ export default function Catalog() {
     setSearchParams(searchParams)
   }
 
+  const handleSortChange = (sort: string) => {
+    setSortBy(sort as SortOption)
+    setPage(1)
+    localStorage.setItem('catalog-sort', sort)
+    searchParams.set('sort', sort)
+    setSearchParams(searchParams)
+  }
+
   return (
     <div className="catalog">
       <header className="catalog-header">
@@ -91,29 +104,54 @@ export default function Catalog() {
         />
       </div>
 
-      <div className="filter-row">
-        <select 
-          value={selectedCategory} 
-          onChange={(e) => handleCategoryChange(e.target.value)}
-          className="filter-select"
-        >
-          {categories.map(cat => (
-            <option key={cat} value={cat}>
-              {cat === 'all' ? 'Todas las categorías' : cat}
-            </option>
-          ))}
-        </select>
+      <div className="filter-section">
+        <h3 className="filter-title">Filtros y ordenamiento</h3>
+        <div className="filter-row">
+          <div className="filter-group">
+            <label htmlFor="filter-category" className="filter-label">Categoría</label>
+            <select 
+              id="filter-category"
+              value={selectedCategory} 
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              className="filter-select"
+            >
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
+                  {cat === 'all' ? 'Todas las categorías' : cat}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <select 
-          value={selectedTeam} 
-          onChange={(e) => handleTeamChange(e.target.value)}
-          className="filter-select"
-        >
-          <option value="">Todos los equipos</option>
-          {teams.map(team => (
-            <option key={team} value={team}>{team}</option>
-          ))}
-        </select>
+          <div className="filter-group">
+            <label htmlFor="filter-team" className="filter-label">Equipo</label>
+            <select 
+              id="filter-team"
+              value={selectedTeam} 
+              onChange={(e) => handleTeamChange(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">Todos los equipos</option>
+              {teams.map(team => (
+                <option key={team} value={team}>{team}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-group">
+            <label htmlFor="filter-sort" className="filter-label">Ordenar por</label>
+            <select 
+              id="filter-sort"
+              value={sortBy} 
+              onChange={(e) => handleSortChange(e.target.value)}
+              className="filter-select"
+            >
+              {SORT_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="results-info">
@@ -167,6 +205,10 @@ export default function Catalog() {
           <p>No se encontraron productos</p>
         </div>
       )}
+
+      <footer className="footer">
+        <p>© 2026 CoquChemas - Las mejores camisetas de fútbol</p>
+      </footer>
     </div>
   )
 }
