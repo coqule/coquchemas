@@ -57,6 +57,16 @@ export default function ProductDetail() {
   
   return (
     <div className="product-detail">
+      <header className="product-header">
+        <div className="header-content">
+          <Link to="/" className="logo">Coqu<span className="logo-accent">Chemas</span></Link>
+          <nav className="nav">
+            <Link to="/catalog" className="nav-link">Catálogo</Link>
+          </nav>
+        </div>
+      </header>
+
+      <div className="product-content">
       <nav className="breadcrumb">
         <Link to="/">Inicio</Link>
         <span>/</span>
@@ -119,6 +129,11 @@ export default function ProductDetail() {
           </div>
         </section>
       ) : null}
+      </div>
+
+      <footer className="footer">
+        <p>© 2026 CoquChemas - Las mejores camisetas de fútbol</p>
+      </footer>
     </div>
   )
 }
