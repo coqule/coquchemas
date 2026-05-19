@@ -109,7 +109,7 @@ export default function ProductDetail() {
         </div>
       </div>
       
-      {relatedProducts.length > 0 && (
+      {relatedProducts.length > 0 ? (
         <section className="related-section">
           <h2>Más de {product.team}</h2>
           <div className="related-grid">
@@ -118,7 +118,7 @@ export default function ProductDetail() {
             ))}
           </div>
         </section>
-      )}
+      ) : null}
     </div>
   )
 }
