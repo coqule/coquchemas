@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import type { Product } from '../types/product'
 import { filterAndSortProducts, SORT_OPTIONS, type SortOption } from '../utils/sortProducts'
@@ -65,35 +65,34 @@ export default function Catalog() {
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 
-  const handleCategoryChange = (cat: string) => {
+  const handleCategoryChange = useCallback((cat: string) => {
     setSelectedCategory(cat)
-    setPage(1)
-    if (cat === 'all') {
-      searchParams.delete('category')
-    } else {
-      searchParams.set('category', cat)
-    }
+    setPage(() => 1)
+    searchParams.set('category', cat === 'all' ? '' : cat)
+    if (cat === 'all') searchParams.delete('category')
     setSearchParams(searchParams)
-  }
+  }, [searchParams, setSearchParams])
 
-  const handleTeamChange = (team: string) => {
+  const handleTeamChange = useCallback((team: string) => {
     setSelectedTeam(team)
-    setPage(1)
-    if (!team) {
-      searchParams.delete('team')
-    } else {
-      searchParams.set('team', team)
-    }
+    setPage(() => 1)
+    if (!team) searchParams.delete('team')
+    else searchParams.set('team', team)
     setSearchParams(searchParams)
-  }
+  }, [searchParams, setSearchParams])
 
-  const handleSortChange = (sort: string) => {
+  const handleSortChange = useCallback((sort: string) => {
     setSortBy(sort as SortOption)
-    setPage(1)
+    setPage(() => 1)
     localStorage.setItem('catalog-sort', sort)
     searchParams.set('sort', sort)
     setSearchParams(searchParams)
-  }
+  }, [searchParams, setSearchParams])
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value)
+    setPage(() => 1)
+  }, [])
 
   return (
     <div className="catalog">
@@ -111,7 +110,7 @@ export default function Catalog() {
           type="text"
           placeholder="Buscar..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          onChange={(e) => handleSearchChange(e.target.value)}
           className="search-input"
         />
       </div>
