@@ -33,7 +33,7 @@ export default function Home() {
 
   const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
     name: cat,
-    slug: cat.toLowerCase().replace(' ', '-')
+    slug: cat.toLowerCase().replace(/ /g, '-')
   }))
   const teams = [...new Set(productsData.map(p => p.team))].filter(Boolean).slice(0, 12)
 

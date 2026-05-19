@@ -21,12 +21,12 @@ export default function Catalog() {
       })
   }, [])
 
-  const initialCategory = searchParams.get('category') || 'all'
+  const initialCategorySlug = searchParams.get('category') || 'all'
   const initialTeam = searchParams.get('team') || ''
   const urlSort = searchParams.get('sort') as SortOption | null
   const savedSort = localStorage.getItem('catalog-sort') as SortOption | null
 
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory)
+  const [selectedCategory, setSelectedCategory] = useState(initialCategorySlug)
   const [selectedTeam, setSelectedTeam] = useState(initialTeam)
   const [sortBy, setSortBy] = useState<SortOption>(urlSort || savedSort || 'newest')
 
@@ -35,20 +35,32 @@ export default function Catalog() {
     return ['all', ...Array.from(cats)]
   }, [productsData])
 
+  const slugToCategory = useMemo(() => {
+    const map = new Map<string, string>()
+    map.set('all', 'all')
+    productsData.forEach(p => {
+      if (p.category) {
+        map.set(p.category.toLowerCase().replace(/ /g, '-'), p.category)
+      }
+    })
+    return map
+  }, [productsData])
+
   const teams = useMemo(() => {
     const t = new Set(productsData.map((p: Product) => p.team).filter(Boolean))
     return [...Array.from(t)].slice(0, 30)
   }, [productsData])
 
   const filtered = useMemo(() => {
+    const actualCategory = slugToCategory.get(selectedCategory) || selectedCategory
     const result = productsData.filter((p: Product) => {
       const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase())
-      const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory
+      const matchesCategory = selectedCategory === 'all' || p.category === actualCategory
       const matchesTeam = !selectedTeam || p.team === selectedTeam
       return matchesSearch && matchesCategory && matchesTeam
     })
     return sortProducts(result, sortBy)
-  }, [productsData, search, selectedCategory, selectedTeam, sortBy])
+  }, [productsData, search, selectedCategory, selectedTeam, sortBy, slugToCategory])
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
@@ -115,11 +127,14 @@ export default function Catalog() {
               onChange={(e) => handleCategoryChange(e.target.value)}
               className="filter-select"
             >
-              {categories.map(cat => (
-                <option key={cat} value={cat}>
-                  {cat === 'all' ? 'Todas las categorías' : cat}
-                </option>
-              ))}
+              {categories.map(cat => {
+                const slug = cat === 'all' ? 'all' : cat.toLowerCase().replace(/ /g, '-')
+                return (
+                  <option key={cat} value={slug}>
+                    {cat === 'all' ? 'Todas las categorías' : cat}
+                  </option>
+                )
+              })}
             </select>
           </div>
 
