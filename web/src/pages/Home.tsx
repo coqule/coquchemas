@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
-import { sortProducts } from '../utils/sortProducts'
+import ProductCard from '../components/ProductCard'
 import './Home.css'
+
+import { fetchProducts } from '../utils/dataCache'
 
 const categoryIcons: Record<string, string> = {
   'Jersey': '⚽',
@@ -14,10 +16,8 @@ const categoryIcons: Record<string, string> = {
   'Outerwear': '🧥'
 }
 
-import { fetchProducts } from '../utils/dataCache'
-
 export default function Home() {
-  const [productsData, setProductsData] = useState<Product[]>([])
+  const [productsData, setProductsData] = useState<Product[]>(() => [])
 
   useEffect(() => {
     fetchProducts().then((data: Product[]) => {
@@ -25,10 +25,11 @@ export default function Home() {
     })
   }, [])
 
-  const newestProducts = useMemo(
-    () => sortProducts(productsData, 'newest').slice(0, 4),
-    [productsData]
-  )
+  const newestProducts = useMemo(() => {
+    return [...productsData]
+      .sort((a, b) => new Date(b.scrapedAt).getTime() - new Date(a.scrapedAt).getTime())
+      .slice(0, 4)
+  }, [productsData])
 
   const categories = [...new Set(productsData.map(p => p.category))].filter(Boolean).map(cat => ({
     name: cat,
@@ -99,16 +100,7 @@ export default function Home() {
         <p className="trending-subtitle">Recién llegados a nuestro catálogo</p>
         <div className="trending-grid">
           {newestProducts.map(product => (
-                <Link key={product.sku} to={`/product/${product.sku}`} className="trending-card">
-              <div className="trending-image">
-                <img src={product.image} alt={product.name} loading="lazy" />
-                <span className="trending-tag">Nuevo</span>
-              </div>
-                <div className="trending-info">
-                  <span className="trending-name">{product.name}</span>
-                  <span className="trending-price">₡20,000</span>
-                </div>
-            </Link>
+            <ProductCard key={product.sku} product={product} />
           ))}
         </div>
         <Link to="/catalog" className="view-all-btn">

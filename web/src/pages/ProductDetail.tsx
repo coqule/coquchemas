@@ -1,12 +1,13 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import type { Product } from '../types/product'
+import ProductCard from '../components/ProductCard'
 import './ProductDetail.css'
 
 import { fetchProducts } from '../utils/dataCache'
 
 export default function ProductDetail() {
-  const [productsData, setProductsData] = useState<Product[]>([])
+  const [productsData, setProductsData] = useState<Product[]>(() => [])
   const { id } = useParams()
   const productSku = id || null
   
@@ -16,16 +17,32 @@ export default function ProductDetail() {
     })
   }, [])
   
-  const product = useMemo(() => {
-    return productsData.find(p => p.sku === productSku) || productsData[0]
-  }, [productsData, productSku])
+  const productMap = useMemo(() => {
+    const map = new Map<string, Product>()
+    productsData.forEach(p => map.set(p.sku, p))
+    return map
+  }, [productsData])
+  
+  const product = productMap.get(productSku || '') || productsData[0]
+
+  const productsByTeam = useMemo(() => {
+    const map = new Map<string, Product[]>()
+    productsData.forEach(p => {
+      if (p.team) {
+        const team = map.get(p.team) || []
+        team.push(p)
+        map.set(p.team, team)
+      }
+    })
+    return map
+  }, [productsData])
 
   const relatedProducts = useMemo(() => {
     if (!product) return []
-    return productsData
-      .filter(p => p.team === product.team && p.id !== product.id)
+    return (productsByTeam.get(product.team) || [])
+      .filter(p => p.id !== product.id)
       .slice(0, 4)
-  }, [product, productsData])
+  }, [product, productsByTeam])
   
   if (!product) {
     return (
@@ -92,24 +109,16 @@ export default function ProductDetail() {
         </div>
       </div>
       
-      {relatedProducts.length > 0 && (
+      {relatedProducts.length > 0 ? (
         <section className="related-section">
           <h2>Más de {product.team}</h2>
           <div className="related-grid">
             {relatedProducts.map(p => (
-              <Link key={p.sku} to={`/product/${p.sku}`} className="related-card">
-                <div className="related-image">
-                  <img src={p.image} alt={p.name} />
-                </div>
-                <div className="related-info">
-                  <span className="related-name">{p.name}</span>
-                  <span className="related-price">₡20,000</span>
-                </div>
-              </Link>
+              <ProductCard key={p.sku} product={p} />
             ))}
           </div>
         </section>
-      )}
+      ) : null}
     </div>
   )
 }

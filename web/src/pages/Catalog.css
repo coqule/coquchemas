@@ -148,6 +148,8 @@
   border-radius: 14px;
   overflow: hidden;
   transition: all 0.3s;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 320px;
 }
 
 .product-card:hover {

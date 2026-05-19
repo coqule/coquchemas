@@ -17,7 +17,13 @@ function parsePrice(price: string): number {
   return parseFloat(cleaned) || 0
 }
 
-export function sortProducts(products: Product[], sortBy: SortOption): Product[] {
+const sortCache = new Map<string, Product[]>()
+
+function getCacheKey(products: Product[], sortBy: SortOption): string {
+  return `${products.length}-${sortBy}-${products[0]?.sku ?? ''}-${products[products.length - 1]?.sku ?? ''}`
+}
+
+function doSort(products: Product[], sortBy: SortOption): Product[] {
   return [...products].sort((a, b) => {
     switch (sortBy) {
       case 'newest':
@@ -38,4 +44,27 @@ export function sortProducts(products: Product[], sortBy: SortOption): Product[]
         return 0
     }
   })
+}
+
+export function sortProducts(products: Product[], sortBy: SortOption): Product[] {
+  const key = getCacheKey(products, sortBy)
+  const cached = sortCache.get(key)
+  if (cached) return cached
+  const result = doSort(products, sortBy)
+  sortCache.set(key, result)
+  return result
+}
+
+export function filterAndSortProducts(
+  products: Product[],
+  predicate: (p: Product) => boolean,
+  sortBy: SortOption
+): Product[] {
+  const filtered: Product[] = []
+  for (let i = 0; i < products.length; i++) {
+    if (predicate(products[i])) {
+      filtered.push(products[i])
+    }
+  }
+  return doSort(filtered, sortBy)
 }
