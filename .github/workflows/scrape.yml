@@ -42,6 +42,5 @@ jobs:
         with:
           file_pattern: 'scraper/products.json web/public/data/products.json'
           commit_message: "Update products.json - scraped from gakits.com"
-          branch: main
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
