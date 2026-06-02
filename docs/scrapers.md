@@ -173,12 +173,81 @@ npm run categories
 
 ## GitHub Actions
 
-El workflow `.github/workflows/scrape.yml` ejecuta diariamente:
-- **Comando:** `npm run scrape` (scrape.js)
-- **Hora:** 00:00 UTC
-- **Objetivo:** New Arrivals ordenados por fecha
+### Workflow: `.github/workflows/scrape.yml`
+
+Ejecuta `npm run scrape` (`node scraper/scrape.js`) **sin banderas** a las 00:00 UTC.
+
+#### Comportamiento del modo por defecto
+
+| Parámetro | Valor |
+|-----------|-------|
+| Script | `scrape.js` |
+| Categoría | Solo **New Arrivals** (ordenado por fecha, más reciente primero) |
+| Páginas | **5** (`OPTS.pages` default) |
+| Modo | Ni `--new` ni `--full` → pasa `existingSkus = []` al scrapear, filtra después |
+
+**Flujo exacto:**
+
+1. Carga `products.json` existente (SKUs, fecha del más reciente)
+2. Scrapea páginas 1 a 5 de New Arrivals (sin filtrar duplicados durante el scrapeo)
+3. Deduplica los items scrapeados por SKU
+4. Filtra contra existentes: solo conserva los que no están en `products.json`
+5. Concatena: `existingProducts + newItems`
+6. Re-escribe `products.json` completo con IDs recalculados
+
+#### Resultado esperado por ejecución diaria
+
+- Se scrapean ~250 productos (5 páginas × 50)
+- La mayoría ya existen en `products.json`
+- Se agregan **entre 1 y 50 productos nuevos** (los que aparecieron en página 1 desde la última ejecución)
+- `products.json` **nunca se reemplaza**, solo crece
+
+#### Estado actual detectado (jun 2026)
+
+| Archivo | Fecha | Productos | Nota |
+|---------|-------|-----------|------|
+| `scraper/products.json` | Recién generado local | **14,998** | Solo New Arrivals (full scrape local) |
+| `web/public/data/products.json` | Feb 5, 2026 | **15,249** | Versión antigua con múltiples categorías |
+
+#### Problemas identificados
+
+1. **`web/public/data/products.json` desactualizado** — fecha: 5 feb 2026 (~4 meses). El workflow intenta commitearlo (`file_pattern: 'scraper/products.json web/public/data/products.json'`), pero **no hay un paso que copie** de `scraper/` a `web/public/data/`. La web podría estar sirviendo datos stale.
+
+2. **Solo 5 páginas por ejecución** — Si hay un error en página 1, la ejecución del día no agrega nada. No hay reintentos.
+
+3. **Sin early‑stop ni reintentos** — Si una página falla (timeout 15s), se salta y sigue. No hay detección de páginas vacías para cortar antes.
+
+#### Diferencia entre `scrape.js` (producción) y `scrape-all.js` (manual)
+
+| | `scrape.js` (Actions) | `scrape-all.js` (manual) |
+|---|---|---|
+| Categorías | Solo New Arrivals | 13 categorías |
+| Modo default | 5 páginas, append | No tiene default (requiere `--full` o `--new`) |
+| Early‑stop | No | Sí (desde optimización jun 2026) |
+| Orden | Por fecha (más reciente) | Por orden natural del sitio |
 
 **Nota:** `scrape-all.js` NO está programado, ejecutar solo manualmente si es necesario actualizar todas las categorías.
+
+#### Diagrama de flujo esperado
+
+```
+GitHub Actions (00:00 UTC)
+        │
+        ▼
+  npm run scrape (scrape.js default)
+        │
+        ├── 1. Leer products.json existente
+        ├── 2. Scrapear páginas 1-5 de New Arrivals
+        ├── 3. Filtrar solo productos nuevos (no en products.json)
+        ├── 4. Concatenar: existentes + nuevos
+        ├── 5. Recalcular IDs
+        └── 6. Guardar → git commit → push a main
+                │
+                ▼
+        products.json actualizado
+        (pero web/public/data/products.json
+         NO se actualiza automáticamente)
+```
 
 ---
 
