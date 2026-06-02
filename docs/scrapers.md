@@ -35,16 +35,26 @@ npm run scrape:full       # 300 páginas (~14,500 productos)
 **Características:**
 - Escanea todas las categorías principales
 - Evita duplicados entre categorías
+- Early‑stop: detiene la categoría tras N páginas consecutivas sin productos nuevos
+- `--full`: ignora productos existentes, scrapea todo desde cero
+- `--new`: solo añade productos con SKU no registrado
 - **NO se ejecuta automáticamente** (solo manual)
+
+**Optimizaciones (jun 2026):**
+- Early‑stop: `MAX_EMPTY = 10` (full) / `30` (new) páginas consecutivas vacías
+- Delays reducidos: 800ms espera + 400ms entre páginas
+- New Arrivals limitado a 100 páginas (con early‑stop real)
+- Bugfix: `--full` ahora pasa `existingSkus` vacío (antes filtraba contra existentes)
+- Bugfix: log de SKUs corregido (`skus.size` → `skus.length`)
 
 **Comandos:**
 ```bash
 npm run scrape:all        # Full scrape de todas las categorías
-npm run scrape:all:new    # Solo productos nuevos
+npm run scrape:all:new    # Solo productos nuevos (incremental)
 ```
 
 **Categorías incluidas:**
-- New Arrivals (300 páginas)
+- New Arrivals (100 páginas)
 - National Teams (50 páginas)
 - Spain - La Liga (50 páginas)
 - Premier League (50 páginas)
@@ -151,22 +161,109 @@ npm run categories
 | `npm run scrape:preview` | Preview (2 páginas) | No |
 | `npm run scrape:new` | Solo productos nuevos | No |
 | `npm run scrape:full` | Full New Arrivals (~14,500) | **Sí (diario)** |
-| `npm run scrape:all` | Todas las categorías | No (manual) |
-| `npm run scrape:all:new` | Solo nuevos (todas) | No |
+| `npm run scrape:all` | Todas las categorías (desde cero) | No (manual) |
+| `npm run scrape:all:new` | Solo nuevos (todas las categorías) | No |
 | `npm run pre-scrape` | Resumen antes de scrape | No (manual) |
 | `npm run count` | Contar por categoría | No |
 | `npm run categories` | Estructura categorías | No |
+
+> 💡 **Recomendación:** Antes de un `scrape:all` o `scrape:all:new`, ejecuta `pre-scrape` para ver cuántos productos hay.
 
 ---
 
 ## GitHub Actions
 
-El workflow `.github/workflows/scrape.yml` ejecuta diariamente:
-- **Comando:** `npm run scrape` (scrape.js)
-- **Hora:** 00:00 UTC
-- **Objetivo:** New Arrivals ordenados por fecha
+### Workflow: `.github/workflows/scrape.yml`
+
+Ejecuta `npm run scrape` (`node scraper/scrape.js`) **sin banderas** a las 00:00 UTC.
+
+#### Comportamiento del modo por defecto
+
+| Parámetro | Valor |
+|-----------|-------|
+| Script | `scrape.js` |
+| Categoría | Solo **New Arrivals** (ordenado por fecha, más reciente primero) |
+| Páginas | **5** (`OPTS.pages` default) |
+| Modo | Ni `--new` ni `--full` → pasa `existingSkus = []` al scrapear, filtra después |
+
+**Flujo exacto:**
+
+1. Carga `products.json` existente (SKUs, fecha del más reciente)
+2. Scrapea páginas 1 a 5 de New Arrivals (sin filtrar duplicados durante el scrapeo)
+3. Deduplica los items scrapeados por SKU
+4. Filtra contra existentes: solo conserva los que no están en `products.json`
+5. Concatena: `existingProducts + newItems`
+6. Re-escribe `products.json` completo con IDs recalculados
+
+#### Resultado esperado por ejecución diaria
+
+- Se scrapean ~250 productos (5 páginas × 50)
+- La mayoría ya existen en `products.json`
+- Se agregan **entre 1 y 50 productos nuevos** (los que aparecieron en página 1 desde la última ejecución)
+- `products.json` **nunca se reemplaza**, solo crece
+
+#### Estado actual detectado (jun 2026)
+
+| Archivo | Fecha | Productos | Nota |
+|---------|-------|-----------|------|
+| `scraper/products.json` | Recién generado local | **14,998** | Solo New Arrivals (full scrape local) |
+| `web/public/data/products.json` | Feb 5, 2026 | **15,249** | Versión antigua con múltiples categorías |
+
+#### Problemas identificados (y solucionados)
+
+1. **Node.js 20 deprecado** — Forzado a Node 24 (`FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true`) y `node-version: '24'` en setup-node.
+
+2. **Playwright se colgaba** — Se añadió `timeout-minutes: 5` al step y se usó `ubuntu-24.04` explícito.
+
+3. **Timeout de job de 60 min** — Reducido a `timeout-minutes: 15` con timeouts individuales en cada step (5 min cada uno).
+
+4. **Runs encimados** — Añadido `concurrency.group: scrape` con `cancel-in-progress: true`.
+
+5. **`web/public/data/products.json` desactualizado** — Ver notas abajo.
+
+> **Nota sobre web/public/data/products.json:** El workflow `deploy-pages.yml` lo copia y lo despliega correctamente. El archivo en el repo puede estar stale, pero la web en GitHub Pages sirve los datos frescos.
+
+1. **`web/public/data/products.json` desactualizado** — fecha: 5 feb 2026 (~4 meses). El workflow intenta commitearlo (`file_pattern: 'scraper/products.json web/public/data/products.json'`), pero **no hay un paso que copie** de `scraper/` a `web/public/data/`. La web podría estar sirviendo datos stale.
+
+2. **Solo 5 páginas por ejecución** — Si hay un error en página 1, la ejecución del día no agrega nada. No hay reintentos.
+
+3. **Sin early‑stop ni reintentos** — Si una página falla (timeout 15s), se salta y sigue. No hay detección de páginas vacías para cortar antes.
+
+#### Diferencia entre `scrape.js` (producción) y `scrape-all.js` (manual)
+
+| | `scrape.js` (Actions) | `scrape-all.js` (manual) |
+|---|---|---|
+| Categorías | Solo New Arrivals | 13 categorías |
+| Modo default | 5 páginas, append | No tiene default (requiere `--full` o `--new`) |
+| Early‑stop | No | Sí (desde optimización jun 2026) |
+| Orden | Por fecha (más reciente) | Por orden natural del sitio |
 
 **Nota:** `scrape-all.js` NO está programado, ejecutar solo manualmente si es necesario actualizar todas las categorías.
+
+#### Diagrama de flujo
+
+```
+GitHub Actions (00:00 UTC)
+        │
+        ▼
+  npm run scrape (scrape.js default)
+        │
+        ├── 1. Leer products.json existente
+        ├── 2. Scrapear páginas 1-5 de New Arrivals
+        ├── 3. Filtrar solo productos nuevos (no en products.json)
+        ├── 4. Concatenar: existentes + nuevos
+        ├── 5. Recalcular IDs
+        └── 6. Guardar → git commit → push a main
+                │
+                ▼
+        Push a main → deploy-pages.yml
+                │
+                ├── 1. Copia scraper/products.json → web/public/data/
+                ├── 2. npm run build (Vite copia a dist/data/)
+                └── 3. Deploy a GitHub Pages
+```
+
+**Nota:** `web/public/data/products.json` en el repo puede estar stale, pero GitHub Pages siempre sirve datos frescos porque el deploy lo copia antes de buildear.
 
 ---
 
@@ -174,7 +271,7 @@ El workflow `.github/workflows/scrape.yml` ejecuta diariamente:
 
 | Archivo | Descripción |
 |---------|-------------|
-| `scraper/products.json` | Productos extraídos (scrape.js) |
+| `scraper/products.json` | Productos extraídos (scrape.js / scrape-all.js) |
 | `scraper/meta.json` | Metadata del último scrape |
 | `scraper/categories.json` | Estructura de categorías |
 
@@ -185,3 +282,5 @@ El workflow `.github/workflows/scrape.yml` ejecuta diariamente:
 - Todos los scrapers usan Playwright para extraer datos
 - Los productos incluyen SKU para referencia en pedidos
 - El campo `scrapedAt` permite filtrar por fecha de agregado
+- Para eliminar el catálogo local y refrescar desde cero: `Remove-Item scraper/products.json` + `npm run scrape:all`
+- Si hay muchos timeouts (15s), el scraper continúa con la siguiente página automáticamente

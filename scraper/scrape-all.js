@@ -7,7 +7,7 @@ const OUTPUT_FILE = path.join(process.cwd(), 'scraper', 'products.json');
 const META_FILE = path.join(process.cwd(), 'scraper', 'meta.json');
 
 const CATEGORIES = [
-  { url: '/New-Arrivals-c68135.html', name: 'New Arrivals', limit: 300 },
+  { url: '/New-Arrivals-c68135.html', name: 'New Arrivals', limit: 100 },
   { url: '/National-Teams-c67964.html', name: 'National Teams', limit: 50 },
   { url: '/Spain-La-Liga-c67995.html', name: 'Spain - La Liga', limit: 50 },
   { url: '/Premier-League-c68002.html', name: 'Premier League', limit: 50 },
@@ -68,13 +68,15 @@ async function scrapeCategory(page, category, existingSkus = []) {
   const skuSet = new Set(existingSkus);
   
   const effectiveLimit = OPTS.preview ? 2 : limit;
+  let emptyCount = 0;
+  const MAX_EMPTY = OPTS.new ? 30 : 10;
   
   for (let pageNum = 1; pageNum <= effectiveLimit; pageNum++) {
     const pageUrl = pageNum === 1 ? baseUrl : baseUrl.replace('.html', `-${pageNum}.html`);
     
     try {
       await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
-      await delay(1500);
+      await delay(800);
       
       const items = await page.evaluate((existingSkuArray) => {
         const skuSet = new Set(existingSkuArray);
@@ -123,11 +125,23 @@ async function scrapeCategory(page, category, existingSkus = []) {
         break;
       }
       
+      if (newItems.length === 0) {
+        emptyCount++;
+        if (emptyCount >= MAX_EMPTY) {
+          console.log(`  ${MAX_EMPTY} consecutive empty pages, stopping early...`);
+          break;
+        }
+      } else {
+        emptyCount = 0;
+      }
+      
     } catch (e) {
       console.error(`  Error page ${pageNum}: ${e.message}`);
+      emptyCount++;
+      if (emptyCount >= MAX_EMPTY) break;
     }
     
-    await delay(800);
+    await delay(400);
   }
   
   return products.map(p => ({
@@ -151,7 +165,7 @@ async function loadExistingProducts() {
     const data = await fs.readFile(OUTPUT_FILE, 'utf-8');
     const products = JSON.parse(data);
     const skus = products.map(p => p.sku).filter(Boolean);
-    console.log(`Loaded existing products: ${products.length}, SKUs: ${skus.size}`);
+    console.log(`Loaded existing products: ${products.length}, SKUs: ${skus.length}`);
     return { products, skus };
   } catch {
     console.log('No existing products.json found, will do full scrape');
@@ -189,7 +203,8 @@ async function scrapeAll() {
   let newProducts = [];
   
   for (const cat of CATEGORIES) {
-    const prods = await scrapeCategory(page, cat, Array.from(existingSkus));
+    const existing = OPTS.full ? [] : Array.from(existingSkus);
+    const prods = await scrapeCategory(page, cat, existing);
     newProducts.push(...prods);
     
     if (OPTS.preview) break;
