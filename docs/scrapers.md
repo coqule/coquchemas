@@ -35,16 +35,26 @@ npm run scrape:full       # 300 páginas (~14,500 productos)
 **Características:**
 - Escanea todas las categorías principales
 - Evita duplicados entre categorías
+- Early‑stop: detiene la categoría tras N páginas consecutivas sin productos nuevos
+- `--full`: ignora productos existentes, scrapea todo desde cero
+- `--new`: solo añade productos con SKU no registrado
 - **NO se ejecuta automáticamente** (solo manual)
+
+**Optimizaciones (jun 2026):**
+- Early‑stop: `MAX_EMPTY = 10` (full) / `30` (new) páginas consecutivas vacías
+- Delays reducidos: 800ms espera + 400ms entre páginas
+- New Arrivals limitado a 100 páginas (con early‑stop real)
+- Bugfix: `--full` ahora pasa `existingSkus` vacío (antes filtraba contra existentes)
+- Bugfix: log de SKUs corregido (`skus.size` → `skus.length`)
 
 **Comandos:**
 ```bash
 npm run scrape:all        # Full scrape de todas las categorías
-npm run scrape:all:new    # Solo productos nuevos
+npm run scrape:all:new    # Solo productos nuevos (incremental)
 ```
 
 **Categorías incluidas:**
-- New Arrivals (300 páginas)
+- New Arrivals (100 páginas)
 - National Teams (50 páginas)
 - Spain - La Liga (50 páginas)
 - Premier League (50 páginas)
@@ -151,11 +161,13 @@ npm run categories
 | `npm run scrape:preview` | Preview (2 páginas) | No |
 | `npm run scrape:new` | Solo productos nuevos | No |
 | `npm run scrape:full` | Full New Arrivals (~14,500) | **Sí (diario)** |
-| `npm run scrape:all` | Todas las categorías | No (manual) |
-| `npm run scrape:all:new` | Solo nuevos (todas) | No |
+| `npm run scrape:all` | Todas las categorías (desde cero) | No (manual) |
+| `npm run scrape:all:new` | Solo nuevos (todas las categorías) | No |
 | `npm run pre-scrape` | Resumen antes de scrape | No (manual) |
 | `npm run count` | Contar por categoría | No |
 | `npm run categories` | Estructura categorías | No |
+
+> 💡 **Recomendación:** Antes de un `scrape:all` o `scrape:all:new`, ejecuta `pre-scrape` para ver cuántos productos hay.
 
 ---
 
@@ -174,7 +186,7 @@ El workflow `.github/workflows/scrape.yml` ejecuta diariamente:
 
 | Archivo | Descripción |
 |---------|-------------|
-| `scraper/products.json` | Productos extraídos (scrape.js) |
+| `scraper/products.json` | Productos extraídos (scrape.js / scrape-all.js) |
 | `scraper/meta.json` | Metadata del último scrape |
 | `scraper/categories.json` | Estructura de categorías |
 
@@ -185,3 +197,5 @@ El workflow `.github/workflows/scrape.yml` ejecuta diariamente:
 - Todos los scrapers usan Playwright para extraer datos
 - Los productos incluyen SKU para referencia en pedidos
 - El campo `scrapedAt` permite filtrar por fecha de agregado
+- Para eliminar el catálogo local y refrescar desde cero: `Remove-Item scraper/products.json` + `npm run scrape:all`
+- Si hay muchos timeouts (15s), el scraper continúa con la siguiente página automáticamente
