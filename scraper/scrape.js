@@ -189,7 +189,10 @@ async function scrapeAll() {
   
   const newItems = deduped.filter(p => !existingProducts.find(e => e.sku === p.sku));
   
-  const finalProducts = (existingProducts.length > 0 ? existingProducts : []).concat(newItems).map((p, i) => ({
+  const finalItems = (existingProducts.length > 0 ? existingProducts : []).concat(newItems);
+  const totalCount = finalItems.length;
+  const baseTs = Date.now();
+  const finalProducts = finalItems.map((p, i) => ({
     id: i + 1,
     sku: p.sku,
     name: p.name,
@@ -202,7 +205,7 @@ async function scrapeAll() {
     type: p.name.toLowerCase().includes('player') ? 'Player Version' : 'Fan Version',
     description: p.name,
     link: p.link?.startsWith('http') ? p.link : `${BASE_URL}${p.link}`,
-    scrapedAt: new Date().toISOString()
+    scrapedAt: new Date(baseTs + (totalCount - i)).toISOString()
   }));
   
   await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalProducts, null, 2), 'utf-8');

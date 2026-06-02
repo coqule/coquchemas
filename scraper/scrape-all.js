@@ -221,7 +221,13 @@ async function scrapeAll() {
     return acc;
   }, []);
   
-  const finalProducts = deduped.map((p, i) => ({ ...p, id: i + 1 }));
+  const totalCount = deduped.length;
+  const baseTs = Date.now();
+  const finalProducts = deduped.map((p, i) => ({
+    ...p,
+    id: i + 1,
+    scrapedAt: p.scrapedAt || new Date(baseTs + (totalCount - i)).toISOString()
+  }));
   
   await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalProducts, null, 2), 'utf-8');
   await saveMeta(finalProducts.length);
