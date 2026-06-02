@@ -209,7 +209,19 @@ Ejecuta `npm run scrape` (`node scraper/scrape.js`) **sin banderas** a las 00:00
 | `scraper/products.json` | Recién generado local | **14,998** | Solo New Arrivals (full scrape local) |
 | `web/public/data/products.json` | Feb 5, 2026 | **15,249** | Versión antigua con múltiples categorías |
 
-#### Problemas identificados
+#### Problemas identificados (y solucionados)
+
+1. **Node.js 20 deprecado** — Forzado a Node 24 (`FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true`) y `node-version: '24'` en setup-node.
+
+2. **Playwright se colgaba** — Se añadió `timeout-minutes: 5` al step y se usó `ubuntu-24.04` explícito.
+
+3. **Timeout de job de 60 min** — Reducido a `timeout-minutes: 15` con timeouts individuales en cada step (5 min cada uno).
+
+4. **Runs encimados** — Añadido `concurrency.group: scrape` con `cancel-in-progress: true`.
+
+5. **`web/public/data/products.json` desactualizado** — Ver notas abajo.
+
+> **Nota sobre web/public/data/products.json:** El workflow `deploy-pages.yml` lo copia y lo despliega correctamente. El archivo en el repo puede estar stale, pero la web en GitHub Pages sirve los datos frescos.
 
 1. **`web/public/data/products.json` desactualizado** — fecha: 5 feb 2026 (~4 meses). El workflow intenta commitearlo (`file_pattern: 'scraper/products.json web/public/data/products.json'`), pero **no hay un paso que copie** de `scraper/` a `web/public/data/`. La web podría estar sirviendo datos stale.
 
@@ -228,7 +240,7 @@ Ejecuta `npm run scrape` (`node scraper/scrape.js`) **sin banderas** a las 00:00
 
 **Nota:** `scrape-all.js` NO está programado, ejecutar solo manualmente si es necesario actualizar todas las categorías.
 
-#### Diagrama de flujo esperado
+#### Diagrama de flujo
 
 ```
 GitHub Actions (00:00 UTC)
@@ -244,10 +256,14 @@ GitHub Actions (00:00 UTC)
         └── 6. Guardar → git commit → push a main
                 │
                 ▼
-        products.json actualizado
-        (pero web/public/data/products.json
-         NO se actualiza automáticamente)
+        Push a main → deploy-pages.yml
+                │
+                ├── 1. Copia scraper/products.json → web/public/data/
+                ├── 2. npm run build (Vite copia a dist/data/)
+                └── 3. Deploy a GitHub Pages
 ```
+
+**Nota:** `web/public/data/products.json` en el repo puede estar stale, pero GitHub Pages siempre sirve datos frescos porque el deploy lo copia antes de buildear.
 
 ---
 
