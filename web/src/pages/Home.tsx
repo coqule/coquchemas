@@ -16,6 +16,16 @@ const categoryIcons: Record<string, string> = {
   'Outerwear': '🧥'
 }
 
+const pillColors: Record<string, string> = {
+  'Jersey': '#ffce56',
+  'Player Version': '#9dcaff',
+  'Retro': '#f59e0b',
+  'Training': '#34d399',
+  'Women': '#f472b6',
+  'Kids': '#22d3ee',
+  'Outerwear': '#a78bfa'
+}
+
 export default function Home() {
   const [productsData, setProductsData] = useState<Product[]>(() => [])
 
@@ -83,10 +93,15 @@ export default function Home() {
 
       <section className="categories-section">
         <h2>Categorías</h2>
-        <div className="categories-grid">
+        <div className="categories-scroll">
           {categories.map(cat => (
-            <Link key={cat.slug} to={`/catalog?category=${cat.slug}`} className="category-card">
-              <span className="category-icon">{categoryIcons[cat.name] || '👕'}</span>
+            <Link
+              key={cat.slug}
+              to={`/catalog?category=${cat.slug}`}
+              className="category-pill"
+              style={{ '--pill-color': pillColors[cat.name] || '#ffce56' } as React.CSSProperties}
+            >
+              <span className="pill-icon">{categoryIcons[cat.name] || '👕'}</span>
               <span>{cat.name}</span>
             </Link>
           ))}
